@@ -5,18 +5,14 @@ const Home = () => {
 
   const [product, setproduct] = useState([]);
 
+  const productList = async () => {
+    const data = await fetch('https://fakestoreapi.com/products/');
+    const result = await data.json();
+    setproduct(result);
+  };
+
   useEffect(() => {
-
-    const productList = async () => {
-      const data = await fetch('https://fakestoreapi.com/products/1')
-      const result = data.json();
-      setproduct(result);
-    };
-  
-    return () => {
-      productList();
-    }
-
+    productList();
   }, [])
   
   return (
