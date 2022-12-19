@@ -17,12 +17,19 @@ const Header = () => {
                 ShopMore
             </Typography>
             <Box sx={{display: {xs: 'flex', md: 'flex'}}}>
-            <IconButton size='large' aria-label='shows cart item count' color='inherit'>
-                <Badge badgeContent={1} color="error">
-                    <ShoppingCartOutlinedIcon/>
-                </Badge>
-            </IconButton>
-        </Box>
+                <IconButton 
+                size='large' 
+                aria-label='shows cart item count' 
+                color='inherit'
+                sx={{
+                    margin:'10px',
+                    padding:'10px'
+                }}>
+                    <Badge badgeContent={1} color="error">
+                        <ShoppingCartOutlinedIcon/>
+                    </Badge>
+                </IconButton>
+            </Box>
         <Button color='inherit'>LogIn</Button>
         </Toolbar>
     </AppBar>
