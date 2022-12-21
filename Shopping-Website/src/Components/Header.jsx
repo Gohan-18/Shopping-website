@@ -2,8 +2,12 @@ import { AppBar, Badge, Button, IconButton, Toolbar, Typography } from '@mui/mat
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import React from 'react'
 import { Box } from '@mui/system';
+import { useSelector } from 'react-redux';
+import { getItemCount } from '../utils';
 
 const Header = () => {
+    const cartItems = useSelector((state) => state.cart.value);
+    const count = getItemCount(cartItems);
   return (
     <AppBar sx={{position: 'sticky'}}>
         <Toolbar>
@@ -25,7 +29,7 @@ const Header = () => {
                     margin:'10px',
                     padding:'10px'
                 }}>
-                    <Badge badgeContent={1} color="error">
+                    <Badge badgeContent={count} color="error">
                         <ShoppingCartOutlinedIcon/>
                     </Badge>
                 </IconButton>

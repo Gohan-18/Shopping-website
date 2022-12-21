@@ -2,11 +2,14 @@ import ShoppingCartOutlined from '@mui/icons-material/ShoppingCartOutlined';
 import { Button, Card, CardActions, CardContent, CardMedia, Container, Grid, Rating, Typography, useTheme } from '@mui/material';
 import React from 'react';
 import { useState, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { addTOCart } from '../feature/Cart-slice';
 
 const Home = () => {
 
   const [product, setproduct] = useState([]);
   const theme = useTheme();
+  const dispatch = useDispatch();
 
   const productList = async () => {
     const data = await fetch('https://fakestoreapi.com/products/');
@@ -31,12 +34,16 @@ const Home = () => {
   //     "count": 120
   //   }
   // }
+
+  function addProductToCart (product) {
+    dispatch(addTOCart({product, quantity:1}));
+  }
   
   return (
 
     // <h1>Hello</h1>
     <Container sx={{ py : 8 }} maxWidth='lg'>
-      <Grid container spacing={4}>
+      <Grid container spacing={2}>
         {product.map(({title, id, price, description, image, rating}) => (
           <Grid item key={id} xs={12} sm={6} lg={3}>
             <Card sx={{height:'100%', display:'flex', flexDirection:'column'}}>
@@ -81,7 +88,7 @@ const Home = () => {
                   alignContent:'center',
                   marginBottom:'20px'
                 }}>
-                  <Button variant='contained'>
+                  <Button variant='contained' onClick={() => addProductToCart({title, id, price, description, image, rating}) }>
                     <ShoppingCartOutlined/>
                     Add to cart
                   </Button>
@@ -94,4 +101,4 @@ const Home = () => {
   )
 }
 
-export default Home
+export default Home;
