@@ -2,25 +2,100 @@ import ShoppingCartOutlined from '@mui/icons-material/ShoppingCartOutlined';
 import { Button, Card, CardActions, CardContent, CardMedia, Container, Grid, Rating, Typography, useTheme } from '@mui/material';
 import React from 'react';
 import { useState, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { useSearchParams } from 'react-router-dom';
 import { addTOCart } from '../feature/Cart-slice';
+import { fetchAllProducts } from '../feature/Product-slice';
 
 const Home = () => {
 
-  const [product, setproduct] = useState([]);
+  const state = useSelector((state) => state.products);
+  const { value: product, loading} = state ?? {};
   const theme = useTheme();
   const dispatch = useDispatch();
+  const [searchParams ] = useSearchParams();
+  const category = searchParams.get('category');
 
-  const productList = async () => {
-    const data = await fetch('https://fakestoreapi.com/products/');
-    const result = await data.json();
-    console.log(result);
-    setproduct(result);
-  };
+  let filteredProduct = category && category !== 'all' ? product.filter( prod => prod.category === category) : product;
 
-  useEffect(() => {
-    productList();
-  }, [])
+  if(!product?.length) {
+    dispatch(fetchAllProducts());
+  }
+
+  function addProductToCart (product) {
+    dispatch(addTOCart({product, quantity:1}));
+  }
+  
+  return (
+
+    // <h1>Hello</h1>
+    <Container sx={{ py : 8 }} maxWidth='lg'>
+      <Grid container spacing={2}>
+        {filteredProduct.map(({title, id, price, description, images, rating}) => (
+          <Grid item key={id} xs={12} sm={6} lg={3}>
+            <Card sx={{height:'100%', display:'flex', flexDirection:'column'}}>
+              <CardMedia 
+              component='img' 
+              image={images[0]} 
+              alt={title}
+              sx={{alignSelf:'center', width:theme.spacing(30), height:theme.spacing(30), objectFit:'contain', pt: theme.spacing(3)}} />
+              <CardContent>
+                <Typography 
+                variant='h5' 
+                component='h2' 
+                gutterBottom 
+                sx={{
+                  overflow: 'hidden',
+                  textOverflow: 'ellipsis',
+                  display: '-webkit-box',
+                  WebkitLineClamp: '1',
+                  WebkitBoxOrient: 'vertical'
+                }}>
+                  {title}
+                </Typography>
+                <Typography  
+                gutterBottom 
+                paragraph
+                color='text.secondary'
+                sx={{
+                  overflow: 'hidden',
+                  textOverflow: 'ellipsis',
+                  display: '-webkit-box',
+                  WebkitLineClamp: '2',
+                  WebkitBoxOrient: 'vertical',
+                }}>
+                  {description}
+                </Typography>
+                <Typography fontSize='large' paragraph >${price}</Typography>
+                <Rating readOnly precision={0.5} value={rating}/>
+              </CardContent>
+              <CardActions 
+                sx={{
+                  alignSelf:'center',
+                  alignContent:'center',
+                  marginBottom:'20px'
+                }}>
+                  <Button variant='contained' onClick={() => addProductToCart({title, id, price, description, images, rating}) }>
+                    <ShoppingCartOutlined/>
+                    Add to cart
+                  </Button>
+                </CardActions>
+            </Card>
+          </Grid>
+        ))}
+      </Grid>
+    </Container>
+  )
+}
+
+export default Home;
+
+  // console.log(product);
+  // const [product, setproduct] = useState([]);
+
+  // useEffect(() => {
+  //   productList();
+  // }, [])
 
   // {
   //   "id": 1,
@@ -35,70 +110,13 @@ const Home = () => {
   //   }
   // }
 
-  function addProductToCart (product) {
-    dispatch(addTOCart({product, quantity:1}));
-  }
   
-  return (
+  // const productList = async () => {
+  //   const data = await fetch('https://dummyjson.com/products/');
+  //   const result = await data.json();
+  //   console.log(result);
+  //   setproduct(result.products);
+  // };
 
-    // <h1>Hello</h1>
-    <Container sx={{ py : 8 }} maxWidth='lg'>
-      <Grid container spacing={2}>
-        {product.map(({title, id, price, description, image, rating}) => (
-          <Grid item key={id} xs={12} sm={6} lg={3}>
-            <Card sx={{height:'100%', display:'flex', flexDirection:'column'}}>
-              <CardMedia 
-              component='img' 
-              image={image} 
-              alt={title}
-              sx={{alignSelf:'center', width:theme.spacing(30), height:theme.spacing(30), objectFit:'contain', pt: theme.spacing(3)}} />
-              <CardContent>
-                <Typography 
-                variant='h5' 
-                component='h2' 
-                gutterBottom 
-                sx={{
-                  overflow: 'hidden',
-                  textOverflow: 'ellipsis',
-                  display: '-webkit-box',
-                  '-webkit-line-clamp': '1',
-                  '-webkit-box-orient': 'vertical'
-                }}>
-                  {title}
-                </Typography>
-                <Typography  
-                gutterBottom 
-                paragraph
-                color='text.secondary'
-                sx={{
-                  overflow: 'hidden',
-                  textOverflow: 'ellipsis',
-                  display: '-webkit-box',
-                  '-webkit-line-clamp': '2',
-                  '-webkit-box-orient': 'vertical',
-                }}>
-                  {description}
-                </Typography>
-                <Typography fontSize='large' paragraph >${price}</Typography>
-                <Rating readOnly precision={0.5} value={rating.rate}/>
-              </CardContent>
-              <CardActions 
-                sx={{
-                  alignSelf:'center',
-                  alignContent:'center',
-                  marginBottom:'20px'
-                }}>
-                  <Button variant='contained' onClick={() => addProductToCart({title, id, price, description, image, rating}) }>
-                    <ShoppingCartOutlined/>
-                    Add to cart
-                  </Button>
-                </CardActions>
-            </Card>
-          </Grid>
-        ))}
-      </Grid>
-    </Container>
-  )
-}
-
-export default Home;
+  // https://dummyjson.com/products
+  // https://fakestoreapi.com/products/
