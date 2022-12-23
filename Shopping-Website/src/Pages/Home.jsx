@@ -15,8 +15,10 @@ const Home = () => {
   const dispatch = useDispatch();
   const [searchParams ] = useSearchParams();
   const category = searchParams.get('category');
+  const searchedTerm = searchParams.get('searchterm');
 
   let filteredProduct = category && category !== 'all' ? product.filter( prod => prod.category === category) : product;
+  filteredProduct = searchedTerm ? filteredProduct.filter((prod) => prod.title.toLowerCase().includes(searchedTerm.toLowerCase())): filteredProduct;
 
   if(!product?.length) {
     dispatch(fetchAllProducts());

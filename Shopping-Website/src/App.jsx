@@ -1,5 +1,4 @@
 import './App.css';
-import Button from '@mui/material/Button';
 import {createBrowserRouter, createRoutesFromElements, Route, RouterProvider} from "react-router-dom";
 import Cart from './Pages/cart';
 import Home from './Pages/Home';
@@ -17,6 +16,7 @@ const router = createBrowserRouter(
     </Route>
   )
 )
+
 function App() {
 
   return (

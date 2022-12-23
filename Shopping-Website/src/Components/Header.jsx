@@ -4,19 +4,21 @@ import React from 'react'
 import { Box } from '@mui/system';
 import { useDispatch, useSelector } from 'react-redux';
 import { getItemCount } from '../utils';
-import { styled, alpha } from '@mui/material/styles';
+import { styled, alpha, useTheme } from '@mui/material/styles';
 import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
 import { fetchAllCategories } from '../feature/Category-slice';
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { useSearchParams } from 'react-router-dom';
+import SearchIcon from '@mui/icons-material/Search';
 
 const Header = () => {
 
     const dispatch = useDispatch();
     const cartItems = useSelector((state) => state.cart.value);
     const count = getItemCount(cartItems);
+    const theme = useTheme();
 
     const Search = styled('section')(({theme}) => ({
         position:'relative',
@@ -31,14 +33,45 @@ const Header = () => {
         width:'100%'
     }))
 
+    const StyleAutocomplete = styled(Autocomplete)(({theme}) => ({
+        color:'inherit',
+        width:'100%',
+        '& .MuiTextField-root': {
+            paddingRight:`calc(1em + ${theme.spacing(4)})`
+        },
+        '& .MuiInputBase-input': {
+            color: theme.palette.common.white
+        },
+        '& .MuiOutlinedInput-notchedOutline': {
+            border:'none'
+        },
+        '& .MuiSvgIcon-root': {
+            color: theme.palette.common.white
+        }
+    }));
+
+    const SearchIconWrapper = styled('section')(({theme}) => ({
+        padding: theme.spacing(0,2),
+        height: '100%',
+        position: 'absolute',
+        right: 0,
+        pointerEvents: 'none',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center'
+    }));
+
     const SearchBar = () => {
-        const [selectedCategory, setSelectedCategory] = useState('all');
+        const theme = useTheme();
+        const [selectedCategory, setSelectedCategory] = useState('');
         const navigate = useNavigate();
         const categoriesItems = useSelector((state) => state.categories?.value);
         const products = useSelector((state) => state.products?.value);
+        const [selectedProduct, setselectedProduct] = useState(null)
 
         const [searchParams ] = useSearchParams();
         const category = searchParams.get('category');
+        const searchTerm = searchParams.get('searchTerm');
 
         useEffect (() => {
             setSelectedCategory(category ? category : 'all');
@@ -51,7 +84,16 @@ const Header = () => {
 
         const handleCategoryChange = (e) => {
             const { value } = e.target;
-            navigate(value === 'all' ? '/' : `/?category=${value}`);
+            navigate(value === 'all' ? '/' : `/?category=${value}${searchTerm? '&searchterm='+searchTerm : ''}`);
+        }
+
+        const handleSearchChange = (searchText) => {
+            if(searchText) {
+                navigate(selectedCategory === 'all' ? `?searchterm=${searchText}`:`/?category=${selectedCategory}&searchterm=${searchText}`);
+            }
+            else {
+                navigate(selectedCategory === 'all' ? `/`:`/?category=${selectedCategory}`);
+            }
         }
 
         return (
@@ -62,9 +104,22 @@ const Header = () => {
             sx={{
                 textTransform:'capitalize',
                 m:'1',
-                '&':{},
+                '&':{
+                    '::before':{
+                        border:'none'
+                    }
+                },
+                '::before, &::after': {
+                    border:'none'
+                },
                 padding:'5px 20px',
-                margin:'0 10px'
+                margin:'0 10px',
+                '.MuiSelect-standard':{
+                    color:'common.white'
+                },
+                '.MuiSelect-icon':{
+                    fill: theme.palette.common.white
+                }
             }}
             variant='standard'
             label='selected-catagory-id'
@@ -79,13 +134,21 @@ const Header = () => {
                     }} key={category} value={category}>{category}</MenuItem>
                 ))}
             </Select>
-            <Autocomplete
+            <StyleAutocomplete
+                freeSolo
+                id='selected-product'
+                value={selectedProduct}
+                onChange={(e, value) => {
+                    console.log(value);
+                    handleSearchChange(value?.label);
+                }}
                 disablePortal
-                id="combo-box-demo"
-                options={Array.from(products, (prod) => ({id: prod.id, label: prod.title}))}
-                sx={{ width: 300 }}
-                renderInput={(params) => <TextField {...params} label='Product List' />}
+                options={Array.from(selectedCategory === 'all' ? products : products.filter(((prod) => prod.category === selectedCategory)), (prod) => ({id: prod.id, label: prod.title}))}
+                renderInput={(params) => <TextField {...params} />}
             />
+            <SearchIconWrapper>
+                <SearchIcon/>
+            </SearchIconWrapper>
         </Search>)
     }
 
@@ -96,27 +159,31 @@ const Header = () => {
                 variant='h6'
                 color='inherit'
                 sx={{
-                    flexGrow: 1,
+                    margin:'0 16px 0 0'
                 }}
             >
                 ShopMore
             </Typography>
             <SearchBar/>
-            <Box sx={{display: {xs: 'flex', md: 'flex'}}}>
-                <IconButton 
-                size='large' 
-                aria-label='shows cart item count' 
-                color='inherit'
-                sx={{
-                    margin:'10px',
-                    padding:'10px'
-                }}>
-                    <Badge badgeContent={count} color="error">
-                        <ShoppingCartOutlinedIcon/>
-                    </Badge>
-                </IconButton>
-            </Box>
-        <Button color='inherit'>LogIn</Button>
+            <NavLink to='/cart' sx={{}}>
+                <Box sx={{display: {xs: 'flex', md: 'flex'}}}>
+                    <IconButton 
+                    size='large' 
+                    aria-label='shows cart item count' 
+                    color='inherit'
+                    sx={{
+                        margin:'10px',
+                        padding:'10px'
+                    }}>
+                        <Badge badgeContent={count} color="error">
+                            <ShoppingCartOutlinedIcon sx={{
+                                fill: theme.palette.common.white
+                            }} />
+                        </Badge>
+                    </IconButton>
+                </Box>
+            </NavLink>
+            <Button color='inherit'>LogIn</Button>
         </Toolbar>
     </AppBar>
   )
