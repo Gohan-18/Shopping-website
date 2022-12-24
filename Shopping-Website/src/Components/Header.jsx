@@ -1,4 +1,4 @@
-import { AppBar, Badge, Button, IconButton, MenuItem, Select, Toolbar, Typography } from '@mui/material';
+import { AppBar, Badge, Button, IconButton, Menu, MenuItem, Select, Toolbar, Typography } from '@mui/material';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import React from 'react'
 import { Box } from '@mui/system';
@@ -9,16 +9,29 @@ import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
 import { fetchAllCategories } from '../feature/Category-slice';
 import { useState, useEffect } from 'react';
-import { NavLink, useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useSearchParams } from 'react-router-dom';
 import SearchIcon from '@mui/icons-material/Search';
+import { useAuth } from '../firebase/Auth';
 
 const Header = () => {
 
+    const [anchorEl, setanchorEl] = useState(null)
+    const { user, signOut } = useAuth();
     const dispatch = useDispatch();
     const cartItems = useSelector((state) => state.cart.value);
     const count = getItemCount(cartItems);
     const theme = useTheme();
+    const navigate = useNavigate();
+    const isMenuOpen = Boolean(anchorEl);
+
+    const navigateToLoginPage = () => {
+        navigate('/login');
+    }
+
+    const navigateTocart = () => {
+        navigate('/cart')
+    }
 
     const Search = styled('section')(({theme}) => ({
         position:'relative',
@@ -59,6 +72,11 @@ const Header = () => {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center'
+    }));
+
+    const StyleLink = styled(Link)(({theme}) => ({
+        color: theme.palette.common.white,
+        textDecoration: 'none'
     }));
 
     const SearchBar = () => {
@@ -139,7 +157,6 @@ const Header = () => {
                 id='selected-product'
                 value={selectedProduct}
                 onChange={(e, value) => {
-                    console.log(value);
                     handleSearchChange(value?.label);
                 }}
                 disablePortal
@@ -152,40 +169,86 @@ const Header = () => {
         </Search>)
     }
 
+    function handleProfileMenuOpen(e) {
+        setanchorEl(e.currentTarget);
+    }
+
+    function handleMenuCLose() {
+        setanchorEl(null);
+    }
+
+    async function logOut () {
+        await signOut();
+        navigate('/login');
+    }
+
+    const renderMenu = (
+        <Menu 
+            anchorEl={anchorEl} 
+            id='user-profile-menu' 
+            keepMounted 
+            transformOrigin={{
+                horizontal: 'right',
+                vertical: 'top'
+            }} anchorOrigin={{
+                horizontal: 'right',
+                vertical: 'bottom'
+            }}
+            open={isMenuOpen}
+            onClose={handleMenuCLose} 
+        >
+            <MenuItem onClick={handleMenuCLose}>Profile</MenuItem>
+            <MenuItem onClick={handleMenuCLose}>My Account</MenuItem>
+            <MenuItem onClick={logOut}>Log Out</MenuItem>
+        </Menu>
+    );
+
   return (
-    <AppBar sx={{position: 'sticky'}}>
-        <Toolbar>
-            <Typography 
-                variant='h6'
-                color='inherit'
-                sx={{
-                    margin:'0 16px 0 0'
-                }}
-            >
-                ShopMore
-            </Typography>
-            <SearchBar/>
-            <NavLink to='/cart' sx={{}}>
-                <Box sx={{display: {xs: 'flex', md: 'flex'}}}>
-                    <IconButton 
-                    size='large' 
-                    aria-label='shows cart item count' 
+    <>
+        <AppBar 
+            position= 'sticky' 
+            sx={{
+                py:1
+            }}>
+            <Toolbar sx={{
+                display: 'flex',
+                gap: 2
+            }}>
+                <Typography 
+                    variant='h6'
                     color='inherit'
                     sx={{
-                        margin:'10px',
-                        padding:'10px'
-                    }}>
+                        margin:'0 10px 0 0'
+                    }}
+                >
+                    <StyleLink to='/'>
+                        ShopMore
+                    </StyleLink>
+                </Typography>
+                <SearchBar/>
+                <Box flexBasis={600} sx={{display: {xs: 'flex', md: 'flex'}}}>
+                    <IconButton 
+                        onClick={navigateTocart}
+                        size='large' 
+                        aria-label='shows cart item count' 
+                        color='inherit'
+                        sx={{
+                            margin:'10px',
+                            padding:'10px'
+                        }}>
                         <Badge badgeContent={count} color="error">
                             <ShoppingCartOutlinedIcon sx={{
                                 fill: theme.palette.common.white
                             }} />
                         </Badge>
                     </IconButton>
+                    {user ? <Button onClick={handleProfileMenuOpen} color='inherit'>Hello, {user?.displayName ?? user.email}</Button> : <Button onClick={navigateToLoginPage} color='inherit'>LogIn</Button> }
                 </Box>
-            </NavLink>
-            <Button color='inherit'>LogIn</Button>
-        </Toolbar>
-    </AppBar>
+                
+            </Toolbar>
+        </AppBar>
+        {renderMenu}
+    </>
   )
 }
 
