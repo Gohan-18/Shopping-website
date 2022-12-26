@@ -46,44 +46,49 @@ const Login = () => {
         >
           <LockOutlinedIcon/>
         </Avatar>
-        <Typography component={'h1'} variant='h5'>SignIn</Typography>
-        <Form onSubmit={login} 
-          sx={{
-            width: '100%',
-            mt:1
-          }}>
-          <TextField 
-            label='Email'
-            variant='outlined' 
-            margin='normal' 
-            required 
-            fullWidth 
-            id='email' 
-            name='email' 
-            type='email' 
-            autoFocus 
-            autoComplete='off'
-            >
+        <Typography component={'h1'} variant='h5' sx={{fontWeight:500}}>Sign In</Typography>
+        <Box sx={{mt:2}}>
+          <Form onSubmit={login} 
+            sx={{
+              width: '100%'
+            }}>
+            <TextField 
+              label='Email'
+              variant='outlined' 
+              margin='normal' 
+              required 
+              fullWidth 
+              id='email' 
+              name='email' 
+              type='email' 
+              autoFocus 
+              autoComplete='off'
+              >
 
-          </TextField>
-          <TextField 
-            label='Password'
-            variant='outlined' 
-            margin='normal' 
-            required 
-            fullWidth 
-            id='password' 
-            name='password' 
-            type='password' 
-            autoFocus 
-            autoComplete='current-password'
-            >
-          </TextField>
-          <Button type='submit' variant='contained' fullWidth color='primary' sx={{
-            margin: theme.spacing(3,0,2)
-          }}>Sign In</Button>
+            </TextField>
+            <TextField 
+              label='Password'
+              variant='outlined' 
+              margin='normal' 
+              required 
+              fullWidth 
+              id='password' 
+              name='password' 
+              type='password'  
+              autoComplete='current-password'
+              >
+            </TextField>
+            <Button type='submit' variant='contained' fullWidth color='primary' sx={{
+              margin: theme.spacing(3,0,2)
+            }}>Sign In</Button>
 
-        </Form>
+          </Form>
+        </Box>
+        <Grid container justifyContent={'flex-end'} >
+          <Grid item >
+              <Link variant='body2' href='/register' sx={{fontSize:'14px'}}>New User? Sign Up</Link>
+          </Grid>
+        </Grid>
 
       </Box>
     </Container>

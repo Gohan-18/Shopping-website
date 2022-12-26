@@ -9,15 +9,16 @@ import store  from './store';
 import Checkout from './Pages/Checkout';
 import AuthProvider from './firebase/Auth';
 import { useAuth } from './firebase/Auth';
+import Register from './Pages/Register';
 
-  function ProtectedRoute ({ children }) {
-    const { user } = useAuth();
+  // function ProtectedRoute ({ children }) {
+  //   const { user } = useAuth();
 
-    if(!user) {
-      return <Navigate to={'/login'}/>
-    }
-    return children;
-  }
+  //   if(!user) {
+  //     return <Navigate to={'/login'}/>
+  //   }
+  //   return children;
+  // }
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -28,12 +29,11 @@ const router = createBrowserRouter(
         <Route 
           path='/checkout' 
           element={
-          <ProtectedRoute>
             <Checkout/>
-          </ProtectedRoute>
         }/>
       </Route>
       <Route path='/login' element={<Login/>}/>
+      <Route path='/register' element={<Register/>}/>
     </>
   )
 )
