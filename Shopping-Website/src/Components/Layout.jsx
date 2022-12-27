@@ -19,7 +19,6 @@ const Layout = () => {
             <CssBaseline/>
             <Outlet/>
         </main>
-        <footer></footer> 
     </ThemeProvider>
   )
 }

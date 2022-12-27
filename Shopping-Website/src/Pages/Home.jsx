@@ -1,7 +1,6 @@
 import ShoppingCartOutlined from '@mui/icons-material/ShoppingCartOutlined';
 import { Button, Card, CardActions, CardContent, CardMedia, Container, Grid, Rating, Typography, useTheme } from '@mui/material';
 import React from 'react';
-import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useSearchParams } from 'react-router-dom';
 import { addTOCart } from '../feature/Cart-slice';
@@ -30,7 +29,6 @@ const Home = () => {
   
   return (
 
-    // <h1>Hello</h1>
     <Container sx={{ py : 8 }} maxWidth='lg'>
       <Grid container spacing={2}>
         {filteredProduct.map(({title, id, price, description, images, rating}) => (

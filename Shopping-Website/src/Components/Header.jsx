@@ -221,9 +221,7 @@ const Header = () => {
                         margin:'0 10px 0 0'
                     }}
                 >
-                    <StyleLink to='/'>
-                        ShopMore
-                    </StyleLink>
+                    <StyleLink to='/'>ShopMore</StyleLink>
                 </Typography>
                 <SearchBar/>
                 <Box sx={{display: {xs: 'flex', md: 'flex'}}}>
