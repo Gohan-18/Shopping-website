@@ -27,11 +27,8 @@ export default function AddressForm() {
     </Typography>
     <Box component='form' onChange={handleChange}>
         <Grid container spacing={3}>
-            <Grid item xs={12} sm={6}>
-                <TextField defaultValue={address.firstName ?? ''} required type='text' id='firstName' label='First Name' name='firstName' autoFocus fullWidth variant='standard' autoComplete='given-name'/>
-            </Grid>
-            <Grid item xs={12} sm={6}>
-                <TextField defaultValue={address.lastName ?? ''} required type='text' id='lastName' label='Last Name' name='lastName' fullWidth variant='standard' autoComplete='family-name'/>
+            <Grid item xs={12}>
+                <TextField defaultValue={address.fullName ?? ''} required type='text' id='fullName' label='Full Name' name='fullName' autoFocus fullWidth variant='standard' autoComplete='given-name'/>
             </Grid>
             <Grid item xs={12}>
                 <TextField defaultValue={address.address1 ?? ''} required type='text' id='address1' label='Address Line 1' name='Address1' fullWidth variant='standard' autoComplete='shipping address-line1'/>

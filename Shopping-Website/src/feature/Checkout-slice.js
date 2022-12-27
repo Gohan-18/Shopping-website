@@ -14,9 +14,13 @@ const checkoutSlice = createSlice({
         updatePayment(state, action) {
             const { payload } = action;
             state.payment = { ...state.payment, ...payload};
+        },
+        clearAddress(state){
+            state.address = {},
+            state.payment = {}
         }
     }
 })
 
-export const { updateAddress, updatePayment } = checkoutSlice.actions;
+export const { updateAddress, updatePayment , clearAddress} = checkoutSlice.actions;
 export default checkoutSlice.reducer;

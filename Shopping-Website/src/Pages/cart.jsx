@@ -40,7 +40,6 @@ export default function cart() {
       <Grid container spacing={2}>
         <Grid item container spacing={2} md={8}>
           {cart?.map(({product, quantity}) => {
-            console.log(product);
             const {title, id, rating, images} = product;
             return <Grid item key={id} xs={12}>
               <Card 
@@ -137,3 +136,5 @@ export default function cart() {
     </Container>
   )
 }
+
+

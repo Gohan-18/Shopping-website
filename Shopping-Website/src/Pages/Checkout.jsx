@@ -2,18 +2,23 @@ import React from 'react';
 import Box from '@mui/system/Box';
 import { Container, Toolbar, Stepper, Step, StepLabel, Button, Typography } from '@mui/material';
 import Paper from '@mui/material/Paper';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import AddressForm from '../Components/AddressForm';
 import PaymentForm from '../Components/PaymentForm';
+import ReviewForm from '../Components/ReviewForm';
+import { useDispatch } from 'react-redux';
+import { clearCart } from '../feature/Cart-slice';
+import { clearAddress } from '../feature/Checkout-slice';
 
 const steps = ['Shipping Address', 'Payment Details', 'Review Order'];
+
 
 function getStepContent (activeStep) {
   switch(activeStep){
     case 0: return <AddressForm/>
     case 1: return <PaymentForm/>
-    case 2: return <h1>Review</h1>
+    case 2: return <ReviewForm/>
     default: throw new Error('Unknown Step');
   }
 }
@@ -22,6 +27,14 @@ export default function Checkout() {
 
   const [activeStep, setactiveStep] = useState(0);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if(activeStep === steps.length) {
+      dispatch(clearCart());
+      dispatch(clearAddress());
+    }
+  }, [activeStep]);
 
   function shopMoreBtnHandler() {
     navigate('/');
@@ -52,7 +65,7 @@ export default function Checkout() {
         {activeStep === steps.length ? (
           <>
           <Typography variant='h5'>Thank you for your order</Typography>
-          <Typography>Your order number is #333253r553. We have sent an Email to you regarding the order confirmation...</Typography>
+          <Typography sx={{mt:1}} >Your order number is #333253RG44. We have sent an Email to you regarding the order confirmation...</Typography>
           <Button onClick={shopMoreBtnHandler} sx={{mt:2, padding:'5px 10px'} }>Shop For More Items</Button>
           </>
         ) : (
