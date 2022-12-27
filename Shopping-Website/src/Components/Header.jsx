@@ -226,7 +226,7 @@ const Header = () => {
                     </StyleLink>
                 </Typography>
                 <SearchBar/>
-                <Box flexBasis={600} sx={{display: {xs: 'flex', md: 'flex'}}}>
+                <Box sx={{display: {xs: 'flex', md: 'flex'}}}>
                     <IconButton 
                         onClick={navigateTocart}
                         size='large' 
