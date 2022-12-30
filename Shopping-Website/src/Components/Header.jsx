@@ -115,7 +115,7 @@ const Header = () => {
         }
 
         return (
-        <Search>
+        <Search >
             <Select
             value={selectedCategory}
             size='small'
@@ -203,9 +203,26 @@ const Header = () => {
         </Menu>
     );
 
+    const Responsive = styled('div')(({theme}) => ({
+
+        [theme.breakpoints.down('sm')]: {
+            display: 'none'
+        }
+    
+    }))
+
   return (
     <>
-        <AppBar 
+        {/* <AppBar            
+            position= 'sticky' 
+            sx={{
+                padding:3,
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center'
+            }}><SearchBar/></AppBar> 
+        <Responsive>  */}
+        <AppBar
             position= 'sticky' 
             sx={{
                 py:1
@@ -245,9 +262,10 @@ const Header = () => {
                 
             </Toolbar>
         </AppBar>
+        {/* </Responsive> */}
         {renderMenu}
     </>
   )
 }
 
-export default Header
+export default Header;
