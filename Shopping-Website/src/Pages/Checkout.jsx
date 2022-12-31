@@ -49,10 +49,15 @@ export default function Checkout() {
   }
 
   return (
-    <Container component='section' maxWidth='lg' sx={{mb:4}}>
+    <Container component='section' maxWidth='lg' 
+      sx={{
+        mb:{
+          xs: 10,
+          sm: 4
+      }}}>
       <Paper varient='outlined' sx={{ my : { xs:3, md:6 }, p: { xs:2, md:3 }} }>
-        <Typography component='h1' varient='h4' sx={{fontSize:'30px'}} align='center'>Checkout</Typography>
-        <Stepper activeStep={activeStep} sx={{
+        <Typography component='h1' varient='h4' sx={{fontSize:'30px', fontWeight: '500'}} align='center'>Checkout</Typography>
+        <Stepper activeStep={activeStep} alternativeLabel sx={{
           pt:3, 
           pb:5
         }}>
@@ -62,13 +67,14 @@ export default function Checkout() {
             </Step>
           ))}
         </Stepper>
+
         {activeStep === steps.length ? (
           <>
           <Typography variant='h5'>Thank you for your order</Typography>
           <Typography sx={{mt:1}} >Your order number is #333253RG44. We have sent an Email to you regarding the order confirmation...</Typography>
           <Button onClick={shopMoreBtnHandler} sx={{mt:2, padding:'5px 10px'} }>Shop For More Items</Button>
           </>
-        ) : (
+          ) : (
           <>
           {getStepContent(activeStep)}
           <Box sx={{display: 'flex', justifyContent: 'flex-end'}}>
