@@ -36,7 +36,10 @@ export default function cart() {
   }
 
   return (
-    <Container sx={{ py: 8 }}>
+    <Container sx={{ py:{
+      xs:4,
+      sm:8
+    } }}>
       <Grid container spacing={2}>
         <Grid item container spacing={2} md={8}>
           {cart?.map(({product, quantity}) => {
@@ -53,8 +56,14 @@ export default function cart() {
                   image={images[0]} 
                   alt={title} 
                   sx={{
-                    width: theme.spacing(30),
-                    height: theme.spacing(30),
+                    width: {
+                      xs: theme.spacing(12),
+                      sm: theme.spacing(30),
+                    },
+                    height: {
+                      xs: theme.spacing(12),
+                      sm: theme.spacing(30),
+                    },
                     objectFit: 'contain',
                     pt: theme.spacing()
                   }} 
@@ -73,12 +82,20 @@ export default function cart() {
                     }}
                   >
                     <Typography variant='h5' sx={{
-                      fontSize:'35px',
+                      // fontSize:'35px',
+                      fontSize: {
+                        xs: '20px',
+                        sm: '35px',
+                      },
+                      fontWeight: {
+                        xs: '500',
+                        sm: '400',
+                      },
                       marginRight: '30px'
                     }}>
                       {title}
                     </Typography>
-                    <Rating readOnly precision={0.5} value={rating}/>
+                    <Rating size='small' readOnly precision={0.5} value={rating}/>
                     <Form>
                       <TextField 
                         id={`${id}-product_id`}
@@ -91,7 +108,10 @@ export default function cart() {
                           max:10
                         }}
                         sx={{
-                          width:theme.spacing(8)
+                          width: {
+                            xs: theme.spacing(5),
+                            sm: theme.spacing(8)
+                          }
                         }}
                         onChange={(e) => updateQuantity(e, { product, quantity})}
                         >
@@ -100,7 +120,14 @@ export default function cart() {
                   </Box>
                   <Box>
                     <Typography variant='h5' paragraph sx={{
-                      fontSize:'25px'
+                      fontSize:{
+                        xs: '16px',
+                        sm: '25px'
+                      },
+                      fontWeight: {
+                        xs: '500',
+                        sm: '400'
+                      }
                     }}>
                       ${getSubTotal([{product, quantity}]).toFixed(2)}
                     </Typography>
@@ -113,7 +140,8 @@ export default function cart() {
         <Grid item md={4} sx={{
           display: 'flex',
           justifyContent: 'center',
-          width: '100%'
+          width: '100%',
+          mb:9
           }}>
           <Card sx={{
             padding: '20px',

@@ -29,7 +29,7 @@ const Home = () => {
   
   return (
 
-    <Container sx={{ py : 8 }} maxWidth='lg'>
+    <Container sx={{ pt : {xs: 4, md: 6}, pb: {xs:10, sm:6}  }} maxWidth='lg'>
       <Grid container spacing={2}>
         {filteredProduct.map(({title, id, price, description, images, rating}) => (
           <Grid item key={id} xs={12} sm={6} lg={3}>

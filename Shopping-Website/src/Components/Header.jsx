@@ -182,6 +182,10 @@ const Header = () => {
         navigate('/login');
     }
 
+    const navigateToAccount = () => {
+        navigate('/account')
+    }
+
     const renderMenu = (
         <Menu 
             anchorEl={anchorEl} 
@@ -198,34 +202,33 @@ const Header = () => {
             onClose={handleMenuCLose} 
         >
             <MenuItem onClick={handleMenuCLose}>Profile</MenuItem>
-            <MenuItem onClick={handleMenuCLose}>My Account</MenuItem>
+            <MenuItem onClick={navigateToAccount}>My Account</MenuItem>
             <MenuItem onClick={logOut}>Log Out</MenuItem>
         </Menu>
     );
 
-    const Responsive = styled('div')(({theme}) => ({
-
-        [theme.breakpoints.down('sm')]: {
-            display: 'none'
-        }
-    
-    }))
-
   return (
     <>
-        {/* <AppBar            
+        <AppBar            
             position= 'sticky' 
             sx={{
                 padding:3,
-                display: 'flex',
+                display: {
+                    xs: 'flex',
+                    sm: 'none'
+                },
                 justifyContent: 'center',
                 alignItems: 'center'
-            }}><SearchBar/></AppBar> 
-        <Responsive>  */}
+            }}><SearchBar/>
+        </AppBar> 
         <AppBar
             position= 'sticky' 
             sx={{
-                py:1
+                py:1,
+                display: {
+                    xs: 'none',
+                    sm: 'flex'
+                }
             }}>
             <Toolbar sx={{
                 display: 'flex',
@@ -257,12 +260,11 @@ const Header = () => {
                             }} />
                         </Badge>
                     </IconButton>
-                    {user ? <Button onClick={handleProfileMenuOpen} color='inherit'>Hello, {user?.displayName ?? user.email}</Button> : <Button onClick={navigateToLoginPage} color='inherit'>LogIn</Button> }
+                    {user ? (<Button onClick={handleProfileMenuOpen} color='inherit'>Hello, {user?.displayName ?? user.email}</Button>) : (<Button onClick={navigateToLoginPage} color='inherit'>LogIn</Button>) }
                 </Box>
                 
             </Toolbar>
         </AppBar>
-        {/* </Responsive> */}
         {renderMenu}
     </>
   )

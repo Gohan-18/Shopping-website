@@ -3,6 +3,7 @@ import { createTheme, ThemeProvider } from '@mui/material';
 import Header from './Header';
 import { Outlet } from 'react-router-dom';
 import CssBaseline from '@mui/material/CssBaseline';
+import Footer from './Footer';
 
 const theme = createTheme({
     palette: {
@@ -19,6 +20,7 @@ const Layout = () => {
             <CssBaseline/>
             <Outlet/>
         </main>
+        <Footer/>
     </ThemeProvider>
   )
 }

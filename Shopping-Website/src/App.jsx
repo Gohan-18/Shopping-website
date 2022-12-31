@@ -1,6 +1,6 @@
 import './App.css';
 import {createBrowserRouter, createRoutesFromElements, Navigate, Route, RouterProvider} from "react-router-dom";
-import Cart from './Pages/cart';
+import Cart from './Pages/Cart';
 import Home from './Pages/Home';
 import Login from './Pages/Login';
 import Layout from './Components/Layout';
@@ -10,6 +10,7 @@ import Checkout from './Pages/Checkout';
 import AuthProvider from './firebase/Auth';
 import { useAuth } from './firebase/Auth';
 import Register from './Pages/Register';
+import AccountInfo from './Components/AccountInfo';
 
   function ProtectedRoute ({ children }) {
     const { user } = useAuth();
@@ -33,6 +34,7 @@ const router = createBrowserRouter(
               <Checkout/>
             </ProtectedRoute>
         }/>
+        <Route path='/account' element={<AccountInfo/>}/>
       </Route>
       <Route path='/login' element={<Login/>}/>
       <Route path='/register' element={<Register/>}/>
