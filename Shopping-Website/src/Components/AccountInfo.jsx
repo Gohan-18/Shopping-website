@@ -71,10 +71,9 @@ export default function AccountInfo() {
                     </Grid>
                 </Grid>
             </Box>
-            <Container maxWidth='sm'>
+            <Container maxWidth='sm' sx={{position: 'fixed', bottom: 100, left:0, right:0}}>
                 <Button fullWidth variant='contained' color='error' onClick={logOut}>LogOut</Button>
             </Container>
-            
         </Container>
         </>
     )

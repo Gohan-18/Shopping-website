@@ -1,10 +1,12 @@
 import ShoppingCartOutlined from '@mui/icons-material/ShoppingCartOutlined';
-import { Button, Card, CardActions, CardContent, CardMedia, Container, Grid, Rating, Typography, useTheme } from '@mui/material';
+import { Button, Card, CardActions, CardContent, CardMedia, Container, Grid, Rating, Typography, useTheme, Box, IconButton, Alert } from '@mui/material';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useSearchParams } from 'react-router-dom';
 import { addTOCart } from '../feature/Cart-slice';
 import { fetchAllProducts } from '../feature/Product-slice';
+import FavoriteBorderRoundedIcon from '@mui/icons-material/FavoriteBorderRounded';
+import FavoriteRoundedIcon from '@mui/icons-material/FavoriteRounded';
 
 const Home = () => {
 
@@ -26,6 +28,22 @@ const Home = () => {
   function addProductToCart (product) {
     dispatch(addTOCart({product, quantity:1}));
   }
+
+  function Alert() {
+    return (
+    <>
+    <Alert
+      action={
+        <Button color="inherit" size="small">
+          Wishlist
+        </Button>
+      }
+      sx={{width:'80%', position: 'absolute', zIndex:'10'}}
+      >
+      Item added to the Wishlist
+    </Alert>
+    </>
+    )}
   
   return (
 
@@ -66,8 +84,21 @@ const Home = () => {
                 }}>
                   {description}
                 </Typography>
-                <Typography fontSize='large' paragraph >${price}</Typography>
-                <Rating readOnly precision={0.5} value={rating}/>
+                <Box sx={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  pr:4,
+                  // mb:2
+                }}>
+                <Typography fontSize='large' paragraph sx={{mt:2}} >${price}</Typography>
+                <IconButton ><FavoriteBorderRoundedIcon  sx={{
+                  '&:active': {
+                    fill: '#e63946'
+                  }
+                  }}/></IconButton>
+                </Box>
+                <Rating readOnly precision={0.5} value={rating} size='small' />
               </CardContent>
               <CardActions 
                 sx={{
