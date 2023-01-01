@@ -1,12 +1,12 @@
 import ShoppingCartOutlined from '@mui/icons-material/ShoppingCartOutlined';
-import { Button, Card, CardActions, CardContent, CardMedia, Container, Grid, Rating, Typography, useTheme, Box, IconButton, Alert } from '@mui/material';
-import React from 'react';
+import { Button, Card, CardActions, CardContent, CardMedia, Container, Grid, Rating, Typography, useTheme, Box, IconButton, Alert, Fade } from '@mui/material';
+import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams, useNavigate } from 'react-router-dom';
 import { addTOCart } from '../feature/Cart-slice';
 import { fetchAllProducts } from '../feature/Product-slice';
 import FavoriteBorderRoundedIcon from '@mui/icons-material/FavoriteBorderRounded';
-import FavoriteRoundedIcon from '@mui/icons-material/FavoriteRounded';
+
 
 const Home = () => {
 
@@ -17,6 +17,7 @@ const Home = () => {
   const [searchParams ] = useSearchParams();
   const category = searchParams.get('category');
   const searchedTerm = searchParams.get('searchterm');
+  const navigate = useNavigate();
 
   let filteredProduct = category && category !== 'all' ? product.filter( prod => prod.category === category) : product;
   filteredProduct = searchedTerm ? filteredProduct.filter((prod) => prod.title.toLowerCase().includes(searchedTerm.toLowerCase())): filteredProduct;
@@ -29,10 +30,53 @@ const Home = () => {
     dispatch(addTOCart({product, quantity:1}));
   }
 
+  const [open, setOpen] = useState(false);
+
+  const handleOpen = () => {
+    setOpen(true);
+    setTimeout(() => {
+      handleClose();
+    }, 2000);
+  };
+
+  const handleClose = () => setOpen(false);
+
+  const navigateWishlist = () => {
+    navigate('/wishlist');
+  }
+
   
   return (
 
-    <Container sx={{ pt : {xs: 4, md: 6}, pb: {xs:10, sm:6}  }} maxWidth='lg'>
+    <Container sx={{ pt : {xs: 4, md: 6}, pb: {xs:14, sm:6}}} maxWidth='lg'>
+
+      <Fade in={open}>
+        <Box sx={{position: 'relative', width:'100%', zIndex:100}}>
+          <Box sx={{
+            display: 'flex',
+            width: '100%',
+            alignItems: 'center',
+            justifyContent: 'center',
+            position: 'absolute',
+            py:5,
+          }} >
+            <Alert
+            sx={{
+              maxWidth: '300px',
+              margin: 'auto',
+              position: 'fixed',
+            }}
+                action={
+                  <Button color="inherit" size="small" onClick={navigateWishlist}>
+                    View
+                  </Button>
+                }
+              >Added to wishlist!!
+            </Alert>
+          </Box>
+        </Box>
+      </Fade>
+
       <Grid container spacing={2}>
         {filteredProduct.map(({title, id, price, description, images, rating}) => (
           <Grid item key={id} xs={12} sm={6} lg={3}>
@@ -77,7 +121,7 @@ const Home = () => {
                   // mb:2
                 }}>
                 <Typography fontSize='large' paragraph sx={{mt:2}} >${price}</Typography>
-                <IconButton ><FavoriteBorderRoundedIcon  sx={{
+                <IconButton onClick={handleOpen} ><FavoriteBorderRoundedIcon  sx={{
                   '&:active': {
                     fill: '#e63946'
                   }
