@@ -30,20 +30,20 @@ const Home = () => {
   }
 
   function Alert() {
-    return (
-    <>
-    <Alert
-      action={
-        <Button color="inherit" size="small">
-          Wishlist
-        </Button>
-      }
-      sx={{width:'80%', position: 'absolute', zIndex:'10'}}
-      >
-      Item added to the Wishlist
-    </Alert>
-    </>
-    )}
+  //   return (
+  //   <>
+  //   <Alert
+  //     action={
+  //       <Button color="inherit" size="small">
+  //         Wishlist
+  //       </Button>
+  //     }
+  //     sx={{width:'80%', position: 'absolute', zIndex:'10'}}
+  //     >
+  //     Item added to the Wishlist
+  //   </Alert>
+  //   </>
+  // )}
   
   return (
 
