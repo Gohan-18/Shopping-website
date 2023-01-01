@@ -11,6 +11,9 @@ import AuthProvider from './firebase/Auth';
 import { useAuth } from './firebase/Auth';
 import Register from './Pages/Register';
 import AccountInfo from './Components/AccountInfo';
+import Profile from './Components/Profile';
+import Orders from './Components/Orders';
+import Wishlist from './Components/Wishlist';
 
   function ProtectedRoute ({ children }) {
     const { user } = useAuth();
@@ -35,6 +38,9 @@ const router = createBrowserRouter(
             </ProtectedRoute>
         }/>
         <Route path='/account' element={<AccountInfo/>}/>
+        <Route path='/profile' element={<Profile/>}/>
+        <Route path='/orders' element={<Orders/>}/>
+        <Route path='/wishlist' element={<Wishlist/>}/>
       </Route>
       <Route path='/login' element={<Login/>}/>
       <Route path='/register' element={<Register/>}/>

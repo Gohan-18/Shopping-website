@@ -183,7 +183,13 @@ const Header = () => {
     }
 
     const navigateToAccount = () => {
-        navigate('/account')
+        navigate('/account');
+        setanchorEl(null);
+    }
+
+    const navigateToProfile = () => {
+        navigate('/profile');
+        setanchorEl(null);
     }
 
     const renderMenu = (
@@ -201,7 +207,7 @@ const Header = () => {
             open={isMenuOpen}
             onClose={handleMenuCLose} 
         >
-            <MenuItem onClick={handleMenuCLose}>Profile</MenuItem>
+            <MenuItem onClick={navigateToProfile}>Profile</MenuItem>
             <MenuItem onClick={navigateToAccount}>My Account</MenuItem>
             <MenuItem onClick={logOut}>Log Out</MenuItem>
         </Menu>
