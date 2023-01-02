@@ -6,7 +6,7 @@ import { useSearchParams, useNavigate } from 'react-router-dom';
 import { addTOCart } from '../feature/Cart-slice';
 import { fetchAllProducts } from '../feature/Product-slice';
 import FavoriteBorderRoundedIcon from '@mui/icons-material/FavoriteBorderRounded';
-
+import { addToWishlist } from '../feature/Wishlist-slice';
 
 const Home = () => {
 
@@ -14,7 +14,7 @@ const Home = () => {
   const { value: product, loading} = state ?? {};
   const theme = useTheme();
   const dispatch = useDispatch();
-  const [searchParams ] = useSearchParams();
+  const [ searchParams ] = useSearchParams();
   const category = searchParams.get('category');
   const searchedTerm = searchParams.get('searchterm');
   const navigate = useNavigate();
@@ -40,6 +40,11 @@ const Home = () => {
   };
 
   const handleClose = () => setOpen(false);
+
+  function addProductToWishlist(product) {
+    dispatch(addToWishlist({product}));
+    handleOpen();
+  }
 
   const navigateWishlist = () => {
     navigate('/wishlist');
@@ -78,7 +83,7 @@ const Home = () => {
       </Fade>
 
       <Grid container spacing={2}>
-        {filteredProduct.map(({title, id, price, description, images, rating}) => (
+        {filteredProduct.map(({title, id, price, description, images, rating, discountPercentage}) => (
           <Grid item key={id} xs={12} sm={6} lg={3}>
             <Card sx={{height:'100%', display:'flex', flexDirection:'column'}}>
               <CardMedia 
@@ -113,22 +118,30 @@ const Home = () => {
                 }}>
                   {description}
                 </Typography>
+
                 <Box sx={{
                   display: 'flex',
                   justifyContent: 'space-between',
                   alignItems: 'center',
                   pr:4,
                   // mb:2
-                }}>
-                <Typography fontSize='large' paragraph sx={{mt:2}} >${price}</Typography>
-                <IconButton onClick={handleOpen} ><FavoriteBorderRoundedIcon  sx={{
-                  '&:active': {
-                    fill: '#e63946'
-                  }
-                  }}/></IconButton>
+                  }}>
+
+                  <Typography fontSize='large' paragraph sx={{mt:2}} >${price}</Typography>
+
+                  <IconButton onClick={() => addProductToWishlist({title, id, price, description, images, rating, discountPercentage})} >
+                    <FavoriteBorderRoundedIcon  sx={{
+                      '&:active': {
+                        fill: '#e63946'
+                      }
+                      }}/>
+                  </IconButton>
                 </Box>
+
                 <Rating readOnly precision={0.5} value={rating} size='small' />
+
               </CardContent>
+
               <CardActions 
                 sx={{
                   alignSelf:'center',
@@ -139,7 +152,8 @@ const Home = () => {
                     <ShoppingCartOutlined/>
                     Add to cart
                   </Button>
-                </CardActions>
+              </CardActions>
+
             </Card>
           </Grid>
         ))}

@@ -1,12 +1,14 @@
 import React from 'react';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
+import IconButton from '@mui/material/IconButton';
 import { useDispatch, useSelector } from 'react-redux';
 import { Card, CardContent, CardMedia, Typography, useTheme, Rating, TextField, Button } from '@mui/material';
 import { Box } from '@mui/material';
 import { Form, useNavigate } from 'react-router-dom';
 import { getSubTotal } from '../utils';
-import { addTOCart, removeFromCart } from '../feature/Cart-slice';
+import { addTOCart, removeFromCart, removeItemFromCart } from '../feature/Cart-slice';
+import DeleteForeverRoundedIcon from '@mui/icons-material/DeleteForeverRounded';
 
 export default function cart() {
 
@@ -25,10 +27,14 @@ export default function cart() {
     navigate('/checkout');
   }
 
+  function removeProduct({product}) {
+    dispatch(removeItemFromCart({product}));
+  }
+
   function updateQuantity(e, { product, quantity}) {
     const updatedQuantity = e.target.valueAsNumber;
     if(updatedQuantity < quantity) {
-      dispatch(removeFromCart({ product }))
+      dispatch(removeFromCart({ product }));
     }
     else {
       dispatch(addTOCart({ product }))
@@ -73,7 +79,7 @@ export default function cart() {
                   alignItems: 'center',
                   justifyContent: 'space-between',
                   flex:1
-                }}>
+                  }}>
                   <Box 
                     sx={{
                       display:'flex',
@@ -118,8 +124,16 @@ export default function cart() {
                       </TextField>
                     </Form>
                   </Box>
-                  <Box>
+                  <Box 
+                    sx={{
+                      display: 'flex',
+                      flexDirection: 'column',
+                      alignItems: 'center',
+                      justifyContent: 'center'
+                    }} >
                     <Typography variant='h5' paragraph sx={{
+                      mt:5,
+                      mb:5,
                       fontSize:{
                         xs: '16px',
                         sm: '25px'
@@ -131,6 +145,15 @@ export default function cart() {
                     }}>
                       ${getSubTotal([{product, quantity}]).toFixed(2)}
                     </Typography>
+                    {/* <DeleteRoundedIcon/> */}
+                    <IconButton onClick={() => removeProduct({product})} >
+                      <DeleteForeverRoundedIcon sx={{
+                        '&:hover': {
+                          fill: '#e63946'
+                        },
+                        
+                      }} />
+                    </IconButton>
                   </Box>
                 </CardContent>
               </Card>
@@ -147,7 +170,7 @@ export default function cart() {
             padding: '20px',
             width: '100%',
             height:'180px'
-          }}>
+            }}>
             <Box sx={{
               padding:2,
               display: 'flex',
