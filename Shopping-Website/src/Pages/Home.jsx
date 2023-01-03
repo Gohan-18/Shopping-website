@@ -123,8 +123,7 @@ const Home = () => {
                   display: 'flex',
                   justifyContent: 'space-between',
                   alignItems: 'center',
-                  pr:4,
-                  // mb:2
+                  pr:4
                   }}>
 
                   <Typography fontSize='large' paragraph sx={{mt:2}} >${price}</Typography>
@@ -163,34 +162,3 @@ const Home = () => {
 }
 
 export default Home;
-
-  // console.log(product);
-  // const [product, setproduct] = useState([]);
-
-  // useEffect(() => {
-  //   productList();
-  // }, [])
-
-  // {
-  //   "id": 1,
-  //   "title": "Fjallraven - Foldsack No. 1 Backpack, Fits 15 Laptops",
-  //   "price": 109.95,
-  //   "description": "Your perfect pack for everyday use and walks in the forest. Stash your laptop (up to 15 inches) in the padded sleeve, your everyday",
-  //   "category": "men's clothing",
-  //   "image": "https://fakestoreapi.com/img/81fPKd-2AYL._AC_SL1500_.jpg",
-  //   "rating": {
-  //     "rate": 3.9,
-  //     "count": 120
-  //   }
-  // }
-
-  
-  // const productList = async () => {
-  //   const data = await fetch('https://dummyjson.com/products/');
-  //   const result = await data.json();
-  //   console.log(result);
-  //   setproduct(result.products);
-  // };
-
-  // https://dummyjson.com/products
-  // https://fakestoreapi.com/products/

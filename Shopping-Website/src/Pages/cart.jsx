@@ -145,7 +145,6 @@ export default function cart() {
                     }}>
                       ${getSubTotal([{product, quantity}]).toFixed(2)}
                     </Typography>
-                    {/* <DeleteRoundedIcon/> */}
                     <IconButton onClick={() => removeProduct({product})} >
                       <DeleteForeverRoundedIcon sx={{
                         '&:hover': {
