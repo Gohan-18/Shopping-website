@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import { addTOCart } from '../feature/Cart-slice';
 import { fetchAllProducts } from '../feature/Product-slice';
-import FavoriteBorderRoundedIcon from '@mui/icons-material/FavoriteBorderRounded';
+import FavoriteRoundedIcon from '@mui/icons-material/FavoriteRounded';
 import { addToWishlist } from '../feature/Wishlist-slice';
 
 const Home = () => {
@@ -85,7 +85,15 @@ const Home = () => {
       <Grid container spacing={2}>
         {filteredProduct.map(({title, id, price, description, images, rating, discountPercentage}) => (
           <Grid item key={id} xs={12} sm={6} lg={3}>
-            <Card sx={{height:'100%', display:'flex', flexDirection:'column'}}>
+            <Card sx={{height:'100%', display:'flex', flexDirection:'column', position: 'relative'}}>
+            <IconButton sx={{position: 'absolute', right: {xs: 5, sm: 10, md: 15},top : {xs: 5, sm: 10, md: 15}}} onClick={() => addProductToWishlist({title, id, price, description, images, rating, discountPercentage})} >
+                    <FavoriteRoundedIcon  sx={{
+                      color: '#adb5bd',
+                      '&:active': {
+                        fill: '#e63946'
+                      }
+                      }}/>
+                  </IconButton>
               <CardMedia 
               component='img' 
               image={images[0]} 
@@ -126,15 +134,19 @@ const Home = () => {
                   pr:4
                   }}>
 
-                  <Typography fontSize='large' paragraph sx={{mt:2}} >${price}</Typography>
+                  <Typography fontSize='md' paragraph sx={{mt:2}} >
+                    ${price.toFixed(2)} <Typography sx={{fontSize:{ xs:'12px', sm: '14px', md: '13px' }, color: '#e63946'}} component='span'>({discountPercentage.toFixed(2)}% OFF)</Typography>
+                    </Typography>
+                  
 
-                  <IconButton onClick={() => addProductToWishlist({title, id, price, description, images, rating, discountPercentage})} >
-                    <FavoriteBorderRoundedIcon  sx={{
+                  {/* <IconButton onClick={() => addProductToWishlist({title, id, price, description, images, rating, discountPercentage})} >
+                    <FavoriteRoundedIcon  sx={{
+                      color: '#adb5bd',
                       '&:active': {
                         fill: '#e63946'
                       }
                       }}/>
-                  </IconButton>
+                  </IconButton> */}
                 </Box>
 
                 <Rating readOnly precision={0.5} value={rating} size='small' />

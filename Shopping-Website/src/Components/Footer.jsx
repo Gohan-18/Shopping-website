@@ -4,11 +4,11 @@ import AccountCircleRoundedIcon from '@mui/icons-material/AccountCircleRounded';
 import ShoppingCartRoundedIcon from '@mui/icons-material/ShoppingCartRounded';
 import { Box } from '@mui/system';
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { getItemCount } from '../utils';
-import { useTheme } from '@emotion/react';
 import { styled } from '@mui/material/styles';
+import { useEffect } from 'react';
 
 export default function Footer() {
 
@@ -16,7 +16,16 @@ export default function Footer() {
     const navigate = useNavigate();
     const cartItems = useSelector((state) => state.cart.value);
     const count = getItemCount(cartItems);
-    const theme = useTheme();
+    const searchParam = location.href.split('/').pop();
+
+    useEffect(() => {
+        if(searchParam === 'wishlist' || searchParam === 'profile' || searchParam === 'account' || searchParam === 'orders') {
+            setValue(1);
+        }
+        if(searchParam === '') {
+            setValue(0);
+        }
+    }, [searchParam]);
 
     const navigateToHome = () => {
         navigate('/')
@@ -59,6 +68,7 @@ export default function Footer() {
                 value={value}
                 onChange={(event, newValue) => {
                     setValue(newValue);
+                    console.log(newValue);
                 }}
             >
                 <BottomNavigationAction onClick={navigateToHome} label="Home" icon={<HomeRoundedIcon />} />
