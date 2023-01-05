@@ -14,6 +14,7 @@ import AccountInfo from './Components/AccountInfo';
 import Profile from './Components/Profile';
 import Orders from './Components/Orders';
 import Wishlist from './Components/Wishlist';
+import Product from './Components/Product';
 
   function ProtectedRoute ({ children }) {
     const { user } = useAuth();
@@ -41,6 +42,7 @@ const router = createBrowserRouter(
         <Route path='/profile' element={<Profile/>}/>
         <Route path='/orders' element={<Orders/>}/>
         <Route path='/wishlist' element={<Wishlist/>}/>
+        <Route path='/product/:productid' element={<Product/>}/>
       </Route>
       <Route path='/login' element={<Login/>}/>
       <Route path='/register' element={<Register/>}/>

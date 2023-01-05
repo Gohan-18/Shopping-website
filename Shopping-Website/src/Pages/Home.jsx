@@ -50,6 +50,9 @@ const Home = () => {
     navigate('/wishlist');
   }
 
+  const navihateProduct = ({id}) => {
+    navigate(`/product/${id}`);
+  };
   
   return (
 
@@ -85,15 +88,18 @@ const Home = () => {
       <Grid container spacing={2}>
         {filteredProduct.map(({title, id, price, description, images, rating, discountPercentage}) => (
           <Grid item key={id} xs={12} sm={6} lg={3}>
-            <Card sx={{height:'100%', display:'flex', flexDirection:'column', position: 'relative'}}>
-            <IconButton sx={{position: 'absolute', right: {xs: 5, sm: 10, md: 15},top : {xs: 5, sm: 10, md: 15}}} onClick={() => addProductToWishlist({title, id, price, description, images, rating, discountPercentage})} >
-                    <FavoriteRoundedIcon  sx={{
-                      color: '#adb5bd',
-                      '&:active': {
-                        fill: '#e63946'
-                      }
-                      }}/>
-                  </IconButton>
+            <Card 
+              onClick={() => navihateProduct({id})} 
+
+              sx={{height:'100%', display:'flex', flexDirection:'column', position: 'relative'}}>
+              <IconButton sx={{position: 'absolute', right: {xs: 5, sm: 10, md: 15},top : {xs: 5, sm: 10, md: 15}}} onClick={() => addProductToWishlist({title, id, price, description, images, rating, discountPercentage})} >
+                <FavoriteRoundedIcon  sx={{
+                  color: '#adb5bd',
+                  '&:active': {
+                    fill: '#e63946'
+                  }
+                  }}/>
+              </IconButton>
               <CardMedia 
               component='img' 
               image={images[0]} 
