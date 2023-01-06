@@ -50,7 +50,7 @@ const Home = () => {
     navigate('/wishlist');
   }
 
-  const navihateProduct = ({id}) => {
+  const navigateProduct = ({id}) => {
     navigate(`/product/${id}`);
   };
   
@@ -89,8 +89,7 @@ const Home = () => {
         {filteredProduct.map(({title, id, price, description, images, rating, discountPercentage}) => (
           <Grid item key={id} xs={12} sm={6} lg={3}>
             <Card 
-              onClick={() => navihateProduct({id})} 
-
+            
               sx={{height:'100%', display:'flex', flexDirection:'column', position: 'relative'}}>
               <IconButton sx={{position: 'absolute', right: {xs: 5, sm: 10, md: 15},top : {xs: 5, sm: 10, md: 15}}} onClick={() => addProductToWishlist({title, id, price, description, images, rating, discountPercentage})} >
                 <FavoriteRoundedIcon  sx={{
@@ -98,14 +97,15 @@ const Home = () => {
                   '&:active': {
                     fill: '#e63946'
                   }
-                  }}/>
+                }}/>
               </IconButton>
               <CardMedia 
+              onClick={() => navigateProduct({id})}
               component='img' 
               image={images[0]} 
               alt={title}
-              sx={{alignSelf:'center', width:theme.spacing(30), height:theme.spacing(30), objectFit:'contain', pt: theme.spacing(3)}} />
-              <CardContent>
+              sx={{alignSelf:'center', width:theme.spacing(30), height:theme.spacing(30), objectFit:'contain', pt: theme.spacing(3),cursor: 'pointer'}} />
+              <CardContent onClick={() => navigateProduct({id})} sx={{cursor: 'pointer'}} >
                 <Typography 
                 variant='h5' 
                 component='h2' 
@@ -143,16 +143,6 @@ const Home = () => {
                   <Typography fontSize='md' paragraph sx={{mt:2}} >
                     ${price.toFixed(2)} <Typography sx={{fontSize:{ xs:'12px', sm: '14px', md: '13px' }, color: '#e63946'}} component='span'>({discountPercentage.toFixed(2)}% OFF)</Typography>
                     </Typography>
-                  
-
-                  {/* <IconButton onClick={() => addProductToWishlist({title, id, price, description, images, rating, discountPercentage})} >
-                    <FavoriteRoundedIcon  sx={{
-                      color: '#adb5bd',
-                      '&:active': {
-                        fill: '#e63946'
-                      }
-                      }}/>
-                  </IconButton> */}
                 </Box>
 
                 <Rating readOnly precision={0.5} value={rating} size='small' />
