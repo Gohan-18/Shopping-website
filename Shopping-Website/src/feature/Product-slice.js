@@ -17,7 +17,7 @@ const productSlice = createSlice({
     name:'products',
     initialState: {
         value: [],
-        singleValue: [],
+        singleValue: {},
         loading: false
     },
     extraReducers:(builder) => {

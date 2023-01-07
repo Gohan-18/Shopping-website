@@ -89,9 +89,17 @@ const Home = () => {
         {filteredProduct.map(({title, id, price, description, images, rating, discountPercentage}) => (
           <Grid item key={id} xs={12} sm={6} lg={3}>
             <Card 
-            
-              sx={{height:'100%', display:'flex', flexDirection:'column', position: 'relative'}}>
-              <IconButton sx={{position: 'absolute', right: {xs: 5, sm: 10, md: 15},top : {xs: 5, sm: 10, md: 15}}} onClick={() => addProductToWishlist({title, id, price, description, images, rating, discountPercentage})} >
+              onClick={(e) =>{ 
+                e.stopPropagation();
+                navigateProduct({id});
+              }}
+              sx={{height:'100%', display:'flex', flexDirection:'column', position: 'relative', cursor:'pointer'}}>
+              <IconButton 
+                sx={{position: 'absolute', right: {xs: 5, sm: 10, md: 15},top : {xs: 5, sm: 10, md: 15}}} 
+                onClick={(e) => {
+                  e.stopPropagation();
+                  addProductToWishlist({title, id, price, description, images, rating, discountPercentage});
+                }}>
                 <FavoriteRoundedIcon  sx={{
                   color: '#adb5bd',
                   '&:active': {
@@ -100,12 +108,12 @@ const Home = () => {
                 }}/>
               </IconButton>
               <CardMedia 
-              onClick={() => navigateProduct({id})}
+              // onClick={() => navigateProduct({id})}
               component='img' 
               image={images[0]} 
               alt={title}
               sx={{alignSelf:'center', width:theme.spacing(30), height:theme.spacing(30), objectFit:'contain', pt: theme.spacing(3),cursor: 'pointer'}} />
-              <CardContent onClick={() => navigateProduct({id})} sx={{cursor: 'pointer'}} >
+              <CardContent sx={{cursor: 'pointer'}} >
                 <Typography 
                 variant='h5' 
                 component='h2' 
@@ -155,7 +163,11 @@ const Home = () => {
                   alignContent:'center',
                   marginBottom:'20px'
                 }}>
-                  <Button variant='contained' onClick={() => addProductToCart({title, id, price, description, images, rating}) }>
+                  <Button variant='contained' 
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      addProductToCart({title, id, price, description, images, rating});
+                    }}>
                     <ShoppingCartOutlined/>
                     Add to cart
                   </Button>
