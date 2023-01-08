@@ -1,15 +1,16 @@
 import React from 'react';
 import Box from '@mui/system/Box';
-import { Container, Toolbar, Stepper, Step, StepLabel, Button, Typography } from '@mui/material';
+import { Container, Stepper, Step, StepLabel, Button, Typography } from '@mui/material';
 import Paper from '@mui/material/Paper';
 import { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import AddressForm from '../Components/AddressForm';
 import PaymentForm from '../Components/PaymentForm';
 import ReviewForm from '../Components/ReviewForm';
 import { useDispatch } from 'react-redux';
 import { clearCart } from '../feature/Cart-slice';
-import { clearAddress } from '../feature/Checkout-slice';
+import { clearAddress, saveDetails } from '../feature/Checkout-slice';
+import { useSelector } from 'react-redux';
 
 const steps = ['Shipping Address', 'Payment Details', 'Review Order'];
 
@@ -28,9 +29,16 @@ export default function Checkout() {
   const [activeStep, setactiveStep] = useState(0);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  
+  const cart = useSelector((state) => state.cart.value);
+  const address = useSelector((state) => state.checkout?.address);
+  const addresses = address ? Object.values(address) : [];
+  const fullAddress = addresses.join(', ')
+  const payment = useSelector((state) => state.checkout?.payment);
 
   useEffect(() => {
     if(activeStep === steps.length) {
+      dispatch(saveDetails({fullAddress, cart}))
       dispatch(clearCart());
       dispatch(clearAddress());
     }

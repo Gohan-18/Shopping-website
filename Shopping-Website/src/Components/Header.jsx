@@ -154,7 +154,7 @@ const Header = () => {
             </Select>
             <StyleAutocomplete
                 freeSolo
-                id='selected-product'
+                className='selected-product'
                 value={selectedProduct}
                 onChange={(e, value) => {
                     handleSearchChange(value?.label);

@@ -68,7 +68,6 @@ export default function Footer() {
                 value={value}
                 onChange={(event, newValue) => {
                     setValue(newValue);
-                    console.log(newValue);
                 }}
             >
                 <BottomNavigationAction onClick={navigateToHome} label="Home" icon={<HomeRoundedIcon />} />

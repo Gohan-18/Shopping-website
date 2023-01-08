@@ -1,6 +1,6 @@
 import React from 'react';
 import { useAuth } from '../firebase/Auth';
-import { Box, Button, Grid, Typography, useTheme, styled, Paper } from '@mui/material';
+import { Box, Button, Grid, Typography, styled, Paper } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { Container } from '@mui/system';
 import FavoriteBorderRoundedIcon from '@mui/icons-material/FavoriteBorderRounded';
@@ -47,7 +47,7 @@ export default function AccountInfo() {
 
     const AccountInfo = () => (
         <>
-        <Container maxWidth='md'>
+        <Container maxWidth='sm'>
             <Box py={5} sx={{
                 display: 'flex',
                 alignItems: 'center',

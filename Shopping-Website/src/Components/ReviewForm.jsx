@@ -11,6 +11,7 @@ export default function Review() {
   const payment = useSelector((state) => state.checkout?.payment);
   const theme = useTheme();
 
+
   return (
     <>
       <Typography variant='h6' gutterBottom>

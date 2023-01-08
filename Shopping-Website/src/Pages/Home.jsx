@@ -108,7 +108,6 @@ const Home = () => {
                 }}/>
               </IconButton>
               <CardMedia 
-              // onClick={() => navigateProduct({id})}
               component='img' 
               image={images[0]} 
               alt={title}
