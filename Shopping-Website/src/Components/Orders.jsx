@@ -75,10 +75,14 @@ export default function Review() {
         </Container>
       </Container>
     </> : 
-
-      <Container maxWidth='md' sx={{display: 'flex', alignItems: 'center', justifyContent: 'center', py: '100px', flexDirection: 'column' }} >
-      <Typography variant='h6' gutterBottom>No Previous Order(s)</Typography>
-      <Button onClick={navigateHome}>Shop Now</Button>
+      <Container maxWidth='lg' sx={{position: 'relative'}} >
+        <IconButton onClick={navigateToMyAccount} sx={{position: 'absolute', top: '30px', left: '20px'}} >
+          <ChevronLeftRoundedIcon fontSize='large'/>
+        </IconButton>
+        <Container maxWidth='md' sx={{display: 'flex', alignItems: 'center', justifyContent: 'center', py: '200px', flexDirection: 'column' }} >
+        <Typography variant='h6' gutterBottom>No Previous Order(s)</Typography>
+        <Button onClick={navigateHome}>Shop Now</Button>
+        </Container>
       </Container>
     }
       

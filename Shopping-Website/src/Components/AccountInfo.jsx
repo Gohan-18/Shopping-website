@@ -1,11 +1,13 @@
 import React from 'react';
 import { useAuth } from '../firebase/Auth';
-import { Box, Button, Grid, Typography, styled, Paper } from '@mui/material';
+import { Box, Button, Grid, Typography, styled, Paper, IconButton } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import { Container } from '@mui/system';
+import { Container } from '@mui/material';
 import FavoriteBorderRoundedIcon from '@mui/icons-material/FavoriteBorderRounded';
 import PersonOutlineRoundedIcon from '@mui/icons-material/PersonOutlineRounded';
 import ShoppingCartCheckoutRoundedIcon from '@mui/icons-material/ShoppingCartCheckoutRounded';
+import ChevronLeftRoundedIcon from '@mui/icons-material/ChevronLeftRounded';
+import ContactMailOutlinedIcon from '@mui/icons-material/ContactMailOutlined';
 
 export default function AccountInfo() {
 
@@ -21,6 +23,10 @@ export default function AccountInfo() {
         navigate('/login');
     }
 
+    function navigateToHome() {
+        navigate('/');
+      };
+
     function navigateProfile() {
         navigate('/profile');
     }
@@ -33,8 +39,8 @@ export default function AccountInfo() {
         navigate('/wishlist');
     }
 
-    function navigateWishlist() {
-        navigate('/wishlist');
+    function navigateContactMe() {
+        navigate('/contact');
     }
 
     const Item = styled(Paper)(({ theme }) => ({
@@ -47,7 +53,11 @@ export default function AccountInfo() {
 
     const AccountInfo = () => (
         <>
-        <Container maxWidth='sm'>
+      <Container maxWidth='lg' sx={{position: 'relative'}} >
+        <IconButton onClick={navigateToHome} sx={{position: 'absolute', top: '30px', left: '20px'}} >
+          <ChevronLeftRoundedIcon fontSize='large'/>
+        </IconButton>
+        <Container maxWidth='sm' sx={{pt: '50px'}} >
             <Box py={5} sx={{
                 display: 'flex',
                 alignItems: 'center',
@@ -67,13 +77,14 @@ export default function AccountInfo() {
                         <Item sx={{display:'flex',alignItems: 'center', justifyContent: 'center', gap:2, cursor: 'pointer', fontWeight:500}} elevation={1} onClick={navigateWishlist}><FavoriteBorderRoundedIcon/> Wishlist</Item>
                     </Grid>
                     <Grid item xs={6} >
-                        <Item sx={{cursor: 'pointer', fontWeight:500}} elevation={1}>Orders</Item>
+                        <Item sx={{display:'flex',alignItems: 'center', justifyContent: 'center', gap:2, cursor: 'pointer', fontWeight:500}} elevation={1} onClick={navigateContactMe}><ContactMailOutlinedIcon/> Contact</Item>
                     </Grid>
                 </Grid>
             </Box>
             <Container maxWidth='sm' sx={{position: 'fixed', bottom: 100, left:0, right:0}}>
                 <Button fullWidth variant='contained' color='error' onClick={logOut}>LogOut</Button>
             </Container>
+        </Container>
         </Container>
         </>
     )

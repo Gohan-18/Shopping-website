@@ -27,7 +27,7 @@ export default function Profile() {
         <ChevronLeftRoundedIcon fontSize='large'/>
       </IconButton>
     <Container maxWidth='sm' sx={{pt: '50px'}} >
-        <Box pt={6} pb={6} sx={{
+        <Box pt={5} pb={6} sx={{
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center'
@@ -37,13 +37,12 @@ export default function Profile() {
         <Box sx={{pb:6, px:{ xs :'20px', sm: '0'}}}>
           <Box sx={{display: 'flex', alignItems: 'center', justifyContent: 'flex-start', mb: '20px'}} >
             <TextField
-              id="standard-read-only-input"
+              id="name-input"
               label='Name'
               defaultValue={user.displayName}
               InputProps={{
                 readOnly: true,
               }}
-              // variant="standard"
               sx={{
                 width:'100%'
               }}
@@ -51,13 +50,12 @@ export default function Profile() {
           </Box>
           <Box sx={{display: 'flex', alignItems: 'center', justifyContent: 'flex-start'}} >
             <TextField
-              id="standard-read-only-input"
+              id="email-input"
               label='Email Id'
               defaultValue={user.email}
               InputProps={{
                 readOnly: true,
               }}
-              // variant="standard"
               sx={{
                 width:'100%'
               }}
