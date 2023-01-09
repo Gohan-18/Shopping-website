@@ -86,7 +86,7 @@ const Home = () => {
       </Fade>
 
       <Grid container spacing={2}>
-        {filteredProduct.map(({title, id, price, description, images, rating, discountPercentage}) => (
+        {filteredProduct.map(({title, id, price, description, images, rating, discountPercentage,stock, brand}) => (
           <Grid item key={id} xs={12} sm={6} lg={3}>
             <Card 
               onClick={(e) =>{ 
