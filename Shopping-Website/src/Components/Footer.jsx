@@ -19,7 +19,7 @@ export default function Footer() {
     const searchParam = location.href.split('/').pop();
 
     useEffect(() => {
-        if(searchParam === 'wishlist' || searchParam === 'profile' || searchParam === 'account' || searchParam === 'orders') {
+        if(searchParam === 'wishlist' || searchParam === 'profile' || searchParam === 'account' || searchParam === 'orders' || searchParam === 'contact') {
             setValue(1);
         }
         if(searchParam === '') {

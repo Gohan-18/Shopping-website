@@ -3,19 +3,54 @@ import { Box, Button, Grid, Typography, IconButton, TextField } from '@mui/mater
 import { Container } from '@mui/material';
 import ChevronLeftRoundedIcon from '@mui/icons-material/ChevronLeftRounded';
 import { useNavigate } from 'react-router-dom';
+import { useForm, ValidationError } from '@formspree/react';
 
 export default function ContactPage() {
 
     const navigate = useNavigate();
+    const [state, handleSubmit] = useForm("myyayler");
 
-    function sendMail (e) {
-        e.preventDefault();
-        
-    }
+    // async function sendMail (event) {
+    //     event.preventDefault();
+    //     const data = new FormData(event.currentTarget);
+    //     console.log(data);
+    //     for (const [key, value] of data) {
+    //         console.log(key, value);
+    //     }
+    // }
 
     function navigateToMyAccount() {
         navigate('/account');
-      };
+    };
+
+    // function handleFormSubmit (e) {
+    //     const value = e.target.value;
+    //     console.log(value);
+    //     console.log('hello')
+    // }
+
+    if (state.succeeded) {
+        return (
+            <>
+            <Container maxWidth='lg' sx={{position: 'relative', pb: '100px'}} >
+                <IconButton onClick={navigateToMyAccount} sx={{position: 'absolute', top: '30px', left: '20px'}} >
+                    <ChevronLeftRoundedIcon fontSize='large'/>
+                </IconButton>
+                <Container maxWidth='sm' sx={{pt: '90px', px: {xs: '20px', sm: '40px'}}} >
+                    <Box py={5} sx={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'flex-start',
+                        flexDirection:'column'
+                    }}>
+                        <Typography variant='h6' sx={{fontSize: '40px', px:'10px',color: '#e63946',textAlign : 'center'}}>Thank you.</Typography>
+                        <Typography variant='h6' sx={{fontSize: '20px', px:'10px',textAlign : 'center'}}>Your message has being delivered.</Typography>
+                    </Box>
+                </Container>
+            </Container>
+            </>
+        )
+    }
 
   return (
     <>
@@ -31,33 +66,44 @@ export default function ContactPage() {
             }}>
                 <Typography variant='h6' sx={{fontSize: '32px', borderBottom: '3px solid black', px:'10px'}}>Contact Me</Typography>
             </Box>
-            <Box sx={{pb:4}} component='form'>
+            <Box sx={{pb:4}} component={'form'} onSubmit={handleSubmit}>
                 <Box sx={{display: 'flex', alignItems: 'center', justifyContent: 'flex-start', mb: '20px', px: '2px'}} >
                     <TextField
                     autoComplete='off'
                     id="name-input"
                     label='Name'
                     defaultValue=''
-                    InputProps={{
-                        readOnly: false,
-                    }}
+                    required 
+                    name='name' 
+                    type='text'  
                     sx={{
                         width:'100%'
                     }}
                     autoFocus
                     />
+                    <ValidationError 
+                        prefix="Name" 
+                        field="name"
+                        errors={state.errors}
+                    />
                 </Box>
                 <Box sx={{display: 'flex', alignItems: 'center', justifyContent: 'flex-start', mb: '20px', px: '2px'}} >
                     <TextField
+                    autoComplete='off'
                     id="email-input"
                     label='Email Id'
                     defaultValue=''
-                    InputProps={{
-                        readOnly: false,
-                    }}
+                    required 
+                    name='email' 
+                    type='email'  
                     sx={{
                         width:'100%'
                     }}
+                    />
+                    <ValidationError 
+                        prefix="Email" 
+                        field="email"
+                        errors={state.errors}
                     />
                 </Box>
                 <Box sx={{display: 'flex', alignItems: 'center', justifyContent: 'flex-start', px: '2px'}} >
@@ -71,10 +117,18 @@ export default function ContactPage() {
                         sx={{
                             width:'100%',
                         }}
+                        required 
+                        name='message' 
+                        type='text'  
+                    />
+                    <ValidationError 
+                        prefix="Message" 
+                        field="message"
+                        errors={state.errors}
                     />
                 </Box>
                 <Box sx={{pt: '30px'}} >
-                    <Button onClick={sendMail} fullWidth variant='contained' color='success' type='submit'>Send Mail</Button>
+                    <Button fullWidth variant='contained' color='success' type='submit' disabled={state.submitting}>Send Mail</Button>
                 </Box>
             </Box>
         </Container>
