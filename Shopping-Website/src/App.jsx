@@ -16,6 +16,7 @@ import Orders from './Components/Orders';
 import Wishlist from './Components/Wishlist';
 import Product from './Components/Product';
 import ContactPage from './Components/ContactPage';
+import ErrorPage from './Components/ErrorPage';
 
   function ProtectedRoute ({ children }) {
     const { user } = useAuth();
@@ -45,6 +46,7 @@ const router = createBrowserRouter(
         <Route path='/wishlist' element={<Wishlist/>}/>
         <Route path='/product/:productid' element={<Product/>}/>
         <Route path='/contact' element={<ContactPage/>}/>
+        <Route path='*' element={<ErrorPage/>}/>
       </Route>
       <Route path='/login' element={<Login/>}/>
       <Route path='/register' element={<Register/>}/>

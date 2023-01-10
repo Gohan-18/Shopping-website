@@ -44,6 +44,23 @@ export default function Checkout() {
     }
   }, [activeStep]);
 
+  function hexNum () {
+    let hexNumber = '#';
+    const hex = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 'A', 'B', 'C', 'D', 'E', 'F'];
+
+    function getRandomNumber() {
+      return Math.floor(Math.random() * hex.length);
+    }
+
+    for(let i = 0; i < 8; i++){
+      hexNumber += hex[getRandomNumber()];
+    }
+
+    return hexNumber;
+  }
+
+  let orderNumber = hexNum();
+
   function shopMoreBtnHandler() {
     navigate('/');
   }
@@ -79,7 +96,7 @@ export default function Checkout() {
         {activeStep === steps.length ? (
           <>
           <Typography variant='h5'>Thank you for your order</Typography>
-          <Typography sx={{mt:1}} >Your order number is #333253RG44. We have sent an Email to you regarding the order confirmation...</Typography>
+          <Typography sx={{mt:1}} >Your order number is {orderNumber} . We have sent an Email to you regarding the order confirmation...</Typography>
           <Button onClick={shopMoreBtnHandler} sx={{mt:2, padding:'5px 10px'} }>Shop For More Items</Button>
           </>
           ) : (
