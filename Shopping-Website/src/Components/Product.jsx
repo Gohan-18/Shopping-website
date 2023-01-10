@@ -11,11 +11,13 @@ import NavigateNextRoundedIcon from '@mui/icons-material/NavigateNextRounded';
 import ShoppingCartOutlined from '@mui/icons-material/ShoppingCartOutlined';
 import { addTOCart } from '../feature/Cart-slice';
 import ChevronLeftRoundedIcon from '@mui/icons-material/ChevronLeftRounded';
+import CircularProgress from '@mui/material/CircularProgress';
+// import FavoriteRoundedIcon from '@mui/icons-material/FavoriteRounded';
 
 export default function Product() {
 
   const state = useSelector((state) => state.products);
-  const { singleValue } = state ?? {};
+  const { singleValue, loading } = state ?? {};
   let {title, id, price, description, images, rating, discountPercentage, stock, brand} = singleValue;
   let imageList = [];
   const [currentIndex, setcurrentIndex] = useState(0);
@@ -25,13 +27,26 @@ export default function Product() {
   for(let i = 0; i < images?.length; i++){
     imageList.push(images[i]);
   }
+
+  const handleNextImage = () => {
+    const isLastSlide = currentIndex === imageList.length - 1;
+    const newIndex = isLastSlide ? 0 : currentIndex + 1;
+    setcurrentIndex(newIndex); 
+  }
+
+  const handlePrevImage = () => {
+    const isFirstSlide = currentIndex === 0;
+    const newIndex = isFirstSlide ? imageList.length - 1 : currentIndex - 1;
+    setcurrentIndex(newIndex);
+  }
+
   const theme = useTheme();
 
   const params = useParams();
   const { productid } = params;
 
   useEffect(() => {
-      dispatch(fetchSingleProduct({productid}));
+    dispatch(fetchSingleProduct({productid}));
   }, []);
 
   function addProductToCart (product) {
@@ -45,22 +60,37 @@ export default function Product() {
   return (
     <>
     <Container maxWidth='lg' sx={{pt:{xs: theme.spacing(4), md: theme.spacing(12)}, pb:theme.spacing(15), position: 'relative'}}>
-      <IconButton onClick={navigateToHome} sx={{position: 'absolute', top: '30px', left: '20px', zIndex: '2'}} >
+    {loading ? <CircularProgress sx={{position: 'fixed', top: '40%', left: '45%', zIndex: '10'}} /> :
+      <>
+      <IconButton onClick={navigateToHome} sx={{position: 'absolute', top: '30px', left: '20px', zIndex: '100'}} >
         <ChevronLeftRoundedIcon fontSize='large'/>
       </IconButton>
+      {/* <IconButton 
+                sx={{position: 'absolute', right: '20px',top : '30px'}} 
+                onClick={(e) => {
+                  e.stopPropagation();
+                  addProductToWishlist({title, id, price, description, images, rating, discountPercentage});
+                }}>
+                <FavoriteRoundedIcon  sx={{
+                  color: '#adb5bd',
+                  '&:active': {
+                    fill: '#e63946'
+                  }
+                }}/>
+        </IconButton> */}
       <Grid container item >
       <Grid item container xs={12} md={6} >
           <Box sx={{ position: 'relative', margin: 'auto'}}>
             <Paper elevation={0} sx={{}} >
-              <IconButton sx={{position: 'absolute', top: '50%', left: '10px'}}>
+              <IconButton onClick={handlePrevImage} sx={{position: 'absolute', top: '40%', left: {xs: '-35px', md:'-50px'}}}>
                 <NavigateBeforeRoundedIcon/>
               </IconButton>
-              <IconButton sx={{position: 'absolute', top: '50%', right: '10px'}}>
+              <IconButton onClick={handleNextImage} sx={{position: 'absolute', top: '40%', right: {xs: '-35px', md:'-50px'}}}>
                 <NavigateNextRoundedIcon />
               </IconButton>
               <CardMedia
                 component='img'
-                image={imageList[0]}
+                image={imageList[currentIndex]}
                 alt={title}
                 sx={{
                   alignSelf:'center', 
@@ -83,8 +113,8 @@ export default function Product() {
               </Box>
               <Typography gutterBottom>{description}</Typography>
               <Divider variant="middle" sx={{my: '20px'}} />
-              <Typography variant='span' sx={{fontWeight: '500'}} >Availability : {stock > 0 ? <Typography variant='span' color='#006400' sx={{fontWeight: '500', px: '10px'}} >- In Stock -</Typography> : <Typography variant='span' sx={{fontWeight: '500', px: '10px'}} color='error'>- Out Of Stock -</Typography>}</Typography>
-              <Typography sx={{fontWeight: '500'}} >Brand : {brand} </Typography>
+              <Typography sx={{color: '#6c757d' ,fontWeight: '400'}} >Brand : <Typography variant='span' sx={{fontWeight: '500', px: '10px', color: '#343a40'}}>{brand}</Typography></Typography>
+              <Typography variant='span' sx={{color: '#6c757d' ,fontWeight: '400'}} >Availability : {stock > 0 ? <Typography variant='span' color='#006400' sx={{fontWeight: '500', px: '10px'}} >- In Stock -</Typography> : <Typography variant='span' sx={{fontWeight: '500', px: '10px'}} color='error'>- Out Of Stock -</Typography>}</Typography> 
             </Paper>
             <Box 
                 sx={{
@@ -106,6 +136,7 @@ export default function Product() {
           </Box>
       </Grid>
       </Grid>
+      </>}
     </Container>
     </>
   )

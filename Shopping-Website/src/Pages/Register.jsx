@@ -35,7 +35,8 @@ export default function Register() {
         mt: theme.spacing(8),
         display: 'flex',
         flexDirection: 'column',
-        alignItems: 'center'
+        alignItems: 'center',
+        px: '20px'
       }}>
         <Avatar sx={{
             m: 1,

@@ -7,6 +7,7 @@ import { addTOCart } from '../feature/Cart-slice';
 import { fetchAllProducts } from '../feature/Product-slice';
 import FavoriteRoundedIcon from '@mui/icons-material/FavoriteRounded';
 import { addToWishlist } from '../feature/Wishlist-slice';
+import CircularProgress from '@mui/material/CircularProgress';
 
 const Home = () => {
 
@@ -56,8 +57,10 @@ const Home = () => {
   
   return (
 
-    <Container sx={{ pt : {xs: 4, md: 6}, pb: {xs:14, sm:6}}} maxWidth='lg'>
+    <Container sx={{ pt : {xs: 4, md: 6}, pb: {xs:14, sm:6}, position: 'relative'}} maxWidth='lg'>
 
+      {loading ? <CircularProgress sx={{position: 'fixed', top: '40%', left: '45%', zIndex: '10'}} /> :
+      <>
       <Fade in={open}>
         <Box sx={{position: 'relative', width:'100%', zIndex:100}}>
           <Box sx={{
@@ -175,7 +178,8 @@ const Home = () => {
             </Card>
           </Grid>
         ))}
-      </Grid>
+      </Grid> 
+      </> }
     </Container>
   )
 }

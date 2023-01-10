@@ -11,7 +11,6 @@ export default function Review() {
   const { cart } = fullData;
   const { fullAddress } = fullData;
   const navigate = useNavigate();
-  console.log(fullData);
   const theme = useTheme();
 
   function navigateToMyAccount() {
@@ -30,6 +29,19 @@ export default function Review() {
         <IconButton onClick={navigateToMyAccount} sx={{position: 'absolute', top: '30px', left: '20px'}} >
           <ChevronLeftRoundedIcon fontSize='large'/>
         </IconButton>
+        <IconButton 
+                sx={{position: 'absolute', right: '20px',top : '30px'}} 
+                onClick={(e) => {
+                  e.stopPropagation();
+                  addProductToWishlist({title, id, price, description, images, rating, discountPercentage});
+                }}>
+                <FavoriteRoundedIcon  sx={{
+                  color: '#adb5bd',
+                  '&:active': {
+                    fill: '#e63946'
+                  }
+                }}/>
+          </IconButton>
         <Container maxWidth='md' sx={{pt: '90px'}}>
             <Box sx={{pt: '20px', pb: '100px', px: {xs: '30px', sm: '40px'}}} >
               <Typography variant='h6' gutterBottom>

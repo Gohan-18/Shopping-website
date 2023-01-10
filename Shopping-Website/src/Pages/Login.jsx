@@ -24,8 +24,14 @@ const Login = () => {
     event.preventDefault();
     const {email, password} = event.target;
 
-    await signIn(email.value, password.value);
-    navigate('/');
+    try{
+      await signIn(email.value, password.value);
+      navigate('/');
+    }
+    catch(e){
+      alert('No user found with submitted credentials...');
+    }
+    
   }
 
 
@@ -37,7 +43,8 @@ const Login = () => {
           mt: theme.spacing(8),
           display: 'flex',
           flexDirection: 'column',
-          alignItems: 'center'
+          alignItems: 'center',
+          mx: '20px'
         }}>
         <Avatar sx={{
           m: 1,
