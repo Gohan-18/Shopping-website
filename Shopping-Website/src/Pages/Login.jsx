@@ -20,6 +20,10 @@ const Login = () => {
   const navigate = useNavigate()
   const { signIn } = useAuth();
 
+  function navigateRegister() {
+    navigate('/register');
+  }
+
   const login = async (event) => {
     event.preventDefault();
     const {email, password} = event.target;
@@ -95,7 +99,7 @@ const Login = () => {
         </Box>
         <Grid container justifyContent={'flex-end'} >
           <Grid item >
-              <Link variant='body2' href='/register' sx={{fontSize:'14px'}}>New User? Sign Up</Link>
+              <Link variant='body2' onClick={navigateRegister} sx={{fontSize:'14px'}}>New User? Sign Up</Link>
           </Grid>
         </Grid>
 
