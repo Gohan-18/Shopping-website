@@ -25,6 +25,7 @@ export default function Product() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
+  const [cartOpen, setCartOpen] = useState(false);
 
   const handleOpen = () => {
     setOpen(true);
@@ -33,7 +34,15 @@ export default function Product() {
     }, 2000);
   };
 
+  const handleCartOpen = () => {
+    setCartOpen(true);
+    setTimeout(() => {
+      handleCartClose();
+    }, 2000);
+  };
+
   const handleClose = () => setOpen(false);
+  const handleCartClose = () => setCartOpen(false);
 
   for(let i = 0; i < images?.length; i++){
     imageList.push(images[i]);
@@ -71,10 +80,15 @@ export default function Product() {
 
   function addProductToCart (product) {
     dispatch(addTOCart({product, quantity:1}));
+    handleCartOpen();
   }
 
   function navigateToHome() {
     navigate('/');
+  }
+
+  const navigateToCart = () => {
+    navigate('/cart');
   }
     
   return (
@@ -109,13 +123,40 @@ export default function Product() {
         </Box>
       </Fade>
 
+      <Fade in={cartOpen}>
+        <Box sx={{position: 'relative', width:'100%', zIndex:100}}>
+          <Box sx={{
+            display: 'flex',
+            width: '100%',
+            alignItems: 'center',
+            justifyContent: 'center',
+            position: 'absolute',
+            pt:'500px',
+          }} >
+            <Alert
+            sx={{
+              maxWidth: '300px',
+              margin: 'auto',
+              position: 'fixed',
+            }}
+                action={
+                  <Button color="inherit" size="small" onClick={navigateToCart}>
+                    View
+                  </Button>
+                }
+              >Added to Cart!!
+            </Alert>
+          </Box>
+        </Box>
+      </Fade>
+
       <IconButton onClick={navigateToHome} sx={{position: 'absolute', top: '30px', left: {xs: '10px', md:'20px'}, zIndex: '100'}} >
         <ChevronLeftRoundedIcon fontSize='large'/>
       </IconButton>
       <Grid container item >
       <Grid item container xs={12} md={6} >
           <Box sx={{ position: 'relative', margin: 'auto'}}>
-            <IconButton 
+            {/* <IconButton 
                   sx={{position: 'absolute', right: '0px',top : '5px', zIndex: '10'}} 
                   onClick={(e) => {
                     e.stopPropagation();
@@ -127,7 +168,7 @@ export default function Product() {
                       fill: '#e63946'
                     }
                   }}/>
-            </IconButton>
+            </IconButton> */}
             <Paper elevation={2} sx={{padding: { sm: '20px', lg: '40px'}}} >
               <IconButton onClick={handlePrevImage} sx={{position: 'absolute', top: '40%', left: {xs: '-35px', sm:'-60px'}}}>
                 <NavigateBeforeRoundedIcon/>
@@ -154,9 +195,22 @@ export default function Product() {
             <Paper elevation={0}  >
               <Typography variant='h5' gutterBottom>{title} </Typography>
               <Rating readOnly precision={0.5} value={rating} size='small' />
-              <Box sx={{py: '10px'}} >
+              <Box sx={{py: '10px', position: 'relative'}} >
                 <Typography sx={{fontSize: { xs:'25px', sm: '30px' }}} component='span'>${price}</Typography>
                 <Typography sx={{fontSize:{ xs:'16px', sm: '15px' }, ml: 1, color: '#e63946'}} component='span'>({discountPercentage}% OFF)</Typography>
+                <IconButton 
+                  sx={{position: 'absolute', right: '5px',top : '5px', zIndex: '10'}} 
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    addProductToWishlist({title, id, price, description, images, rating, discountPercentage});
+                  }}>
+                  <FavoriteRoundedIcon  sx={{
+                    color: '#adb5bd',
+                    '&:active': {
+                      fill: '#e63946'
+                    }
+                  }}/>
+                </IconButton>
               </Box>
               <Typography gutterBottom>{description}</Typography>
               <Divider variant="middle" sx={{my: '20px'}} />

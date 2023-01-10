@@ -25,6 +25,9 @@ export default function Footer() {
         if(searchParam === '') {
             setValue(0);
         }
+        if(searchParam === 'cart') {
+            setValue(2);
+        }
     }, [searchParam]);
 
     const navigateToHome = () => {

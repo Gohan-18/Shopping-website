@@ -29,9 +29,11 @@ const Home = () => {
 
   function addProductToCart (product) {
     dispatch(addTOCart({product, quantity:1}));
+    handleCartOpen();
   }
 
   const [open, setOpen] = useState(false);
+  const [cartOpen, setCartOpen] = useState(false);
 
   const handleOpen = () => {
     setOpen(true);
@@ -40,7 +42,15 @@ const Home = () => {
     }, 2000);
   };
 
+  const handleCartOpen = () => {
+    setCartOpen(true);
+    setTimeout(() => {
+      handleCartClose();
+    }, 2000);
+  };
+
   const handleClose = () => setOpen(false);
+  const handleCartClose = () => setCartOpen(false);
 
   function addProductToWishlist(product) {
     dispatch(addToWishlist({product}));
@@ -49,6 +59,10 @@ const Home = () => {
 
   const navigateWishlist = () => {
     navigate('/wishlist');
+  }
+
+  const navigateToCart = () => {
+    navigate('/cart');
   }
 
   const navigateProduct = ({id}) => {
@@ -83,6 +97,33 @@ const Home = () => {
                   </Button>
                 }
               >Added to wishlist!!
+            </Alert>
+          </Box>
+        </Box>
+      </Fade>
+
+      <Fade in={cartOpen}>
+        <Box sx={{position: 'relative', width:'100%', zIndex:100}}>
+          <Box sx={{
+            display: 'flex',
+            width: '100%',
+            alignItems: 'center',
+            justifyContent: 'center',
+            position: 'absolute',
+            py:5,
+          }} >
+            <Alert
+            sx={{
+              maxWidth: '300px',
+              margin: 'auto',
+              position: 'fixed',
+            }}
+                action={
+                  <Button color="inherit" size="small" onClick={navigateToCart}>
+                    View
+                  </Button>
+                }
+              >Added to Cart!!
             </Alert>
           </Box>
         </Box>
