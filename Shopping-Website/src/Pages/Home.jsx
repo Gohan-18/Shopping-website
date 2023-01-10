@@ -1,5 +1,5 @@
 import ShoppingCartOutlined from '@mui/icons-material/ShoppingCartOutlined';
-import { Button, Card, CardActions, CardContent, CardMedia, Container, Grid, Rating, Typography, useTheme, Box, IconButton, Alert, Fade } from '@mui/material';
+import { Button, Card, CardActions, CardContent, CardMedia, Container, Grid, Rating, Typography, useTheme, Box, IconButton, Alert, Fade, CardActionArea } from '@mui/material';
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useSearchParams, useNavigate } from 'react-router-dom';
@@ -132,91 +132,94 @@ const Home = () => {
       <Grid container spacing={2}>
         {filteredProduct.map(({title, id, price, description, images, rating, discountPercentage,stock, brand}) => (
           <Grid item key={id} xs={12} sm={6} lg={3}>
-            <Card 
-              onClick={(e) =>{ 
-                e.stopPropagation();
-                navigateProduct({id});
-              }}
-              sx={{height:'100%', display:'flex', flexDirection:'column', position: 'relative', cursor:'pointer'}}>
-              <IconButton 
-                sx={{position: 'absolute', right: {xs: 5, sm: 10, md: 15},top : {xs: 5, sm: 10, md: 15}}} 
-                onClick={(e) => {
+            <Card>
+              <CardActionArea
+                sx={{height:'100%', display:'flex', flexDirection:'column', position: 'relative'}}
+                onClick={(e) =>{ 
                   e.stopPropagation();
-                  addProductToWishlist({title, id, price, description, images, rating, discountPercentage});
-                }}>
-                <FavoriteRoundedIcon  sx={{
-                  color: '#adb5bd',
-                  '&:active': {
-                    fill: '#e63946'
-                  }
-                }}/>
-              </IconButton>
-              <CardMedia 
-              component='img' 
-              image={images[0]} 
-              alt={title}
-              sx={{alignSelf:'center', width:theme.spacing(30), height:theme.spacing(30), objectFit:'contain', pt: theme.spacing(3),cursor: 'pointer'}} />
-              <CardContent sx={{cursor: 'pointer'}} >
-                <Typography 
-                variant='h5' 
-                component='h2' 
-                gutterBottom 
-                sx={{
-                  overflow: 'hidden',
-                  textOverflow: 'ellipsis',
-                  display: '-webkit-box',
-                  WebkitLineClamp: '1',
-                  WebkitBoxOrient: 'vertical'
-                }}>
-                  {title}
-                </Typography>
-                <Typography  
-                gutterBottom 
-                paragraph
-                color='text.secondary'
-                sx={{
-                  overflow: 'hidden',
-                  textOverflow: 'ellipsis',
-                  display: '-webkit-box',
-                  WebkitLineClamp: '2',
-                  WebkitBoxOrient: 'vertical',
-                }}>
-                  {description}
-                </Typography>
-
-                <Box sx={{
-                  display: 'flex',
-                  justifyContent: 'space-between',
-                  alignItems: 'center',
-                  pr:4
+                  navigateProduct({id});
+                }}
+              >
+                <IconButton 
+                  sx={{position: 'absolute', right: {xs: 5, sm: 10, md: 15},top : {xs: 5, sm: 10, md: 15}}} 
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    addProductToWishlist({title, id, price, description, images, rating, discountPercentage});
                   }}>
+                  <FavoriteRoundedIcon  sx={{
+                    color: '#adb5bd',
+                    '&:active': {
+                      fill: '#e63946'
+                    }
+                  }}/>
+                </IconButton>
+                <CardMedia 
+                component='img' 
+                image={images[0]} 
+                alt={title}
+                sx={{alignSelf:'center', width:theme.spacing(30), height:theme.spacing(30), objectFit:'contain', pt: theme.spacing(3),cursor: 'pointer'}} />
+                <CardContent sx={{cursor: 'pointer'}} >
+                  <Typography 
+                  variant='h5' 
+                  component='h2' 
+                  gutterBottom 
+                  sx={{
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis',
+                    display: '-webkit-box',
+                    WebkitLineClamp: '1',
+                    WebkitBoxOrient: 'vertical'
+                  }}>
+                    {title}
+                  </Typography>
+                  <Typography  
+                  gutterBottom 
+                  paragraph
+                  color='text.secondary'
+                  sx={{
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis',
+                    display: '-webkit-box',
+                    WebkitLineClamp: '2',
+                    WebkitBoxOrient: 'vertical',
+                  }}>
+                    {description}
+                  </Typography>
 
-                  <Typography fontSize='md' paragraph sx={{mt:2}} >
-                    ${price.toFixed(2)} <Typography sx={{fontSize:{ xs:'12px', sm: '14px', md: '13px' }, color: '#e63946'}} component='span'>({discountPercentage.toFixed(2)}% OFF)</Typography>
-                    </Typography>
-                </Box>
-
-                <Rating readOnly precision={0.5} value={rating} size='small' />
-
-              </CardContent>
-
-              <CardActions 
-                sx={{
-                  alignSelf:'center',
-                  alignContent:'center',
-                  marginBottom:'20px'
-                }}>
-                  <Button variant='contained' 
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      addProductToCart({title, id, price, description, images, rating});
+                  <Box sx={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    pr:4
                     }}>
-                    <ShoppingCartOutlined/>
-                    Add to cart
-                  </Button>
-              </CardActions>
 
+                    <Typography fontSize='md' paragraph sx={{mt:2}} >
+                      ${price.toFixed(2)} <Typography sx={{fontSize:{ xs:'12px', sm: '14px', md: '13px' }, color: '#e63946'}} component='span'>({discountPercentage.toFixed(2)}% OFF)</Typography>
+                      </Typography>
+                  </Box>
+
+                  <Rating readOnly precision={0.5} value={rating} size='small' />
+
+                </CardContent>
+
+                <CardActions 
+                  sx={{
+                    alignSelf:'center',
+                    alignContent:'center',
+                    marginBottom:'20px'
+                  }}>
+                    <Button variant='contained' 
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        addProductToCart({title, id, price, description, images, rating});
+                      }}>
+                      <ShoppingCartOutlined/>
+                      Add to cart
+                    </Button>
+                </CardActions>
+              </CardActionArea>
             </Card>
+            
           </Grid>
         ))}
       </Grid> 
