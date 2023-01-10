@@ -18,6 +18,10 @@ export default function Register() {
     const theme = useTheme();
     const navigate = useNavigate()
     const { signUp } = useAuth();
+
+    function navigateToLogin() {
+        navigate('/login');
+    }
   
     const registerUser = async (event) => {
         event.preventDefault();
@@ -105,7 +109,7 @@ export default function Register() {
         </Box>
         <Grid container justifyContent={'flex-end'} >
             <Grid item >
-                <Link variant='body2' href='/login' sx={{fontSize:'14px'}}>Already have an account? Sign In</Link>
+                <Link variant='body2' onClick={navigateToLogin} sx={{fontSize:'14px', cursor: 'pointer'}}>Already have an account? Sign In</Link>
             </Grid>
         </Grid>
     </Box>

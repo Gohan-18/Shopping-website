@@ -99,7 +99,7 @@ const Login = () => {
         </Box>
         <Grid container justifyContent={'flex-end'} >
           <Grid item >
-              <Link variant='body2' onClick={navigateRegister} sx={{fontSize:'14px'}}>New User? Sign Up</Link>
+              <Link variant='body2' onClick={navigateRegister} sx={{fontSize:'14px', cursor: 'pointer'}}>New User? Sign Up</Link>
           </Grid>
         </Grid>
 
