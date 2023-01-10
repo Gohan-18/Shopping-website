@@ -109,25 +109,25 @@ export default function Product() {
         </Box>
       </Fade>
 
-      <IconButton onClick={navigateToHome} sx={{position: 'absolute', top: '30px', left: {xs: '30px', md:'20px'}, zIndex: '100'}} >
+      <IconButton onClick={navigateToHome} sx={{position: 'absolute', top: '30px', left: {xs: '10px', md:'20px'}, zIndex: '100'}} >
         <ChevronLeftRoundedIcon fontSize='large'/>
       </IconButton>
       <Grid container item >
       <Grid item container xs={12} md={6} >
           <Box sx={{ position: 'relative', margin: 'auto'}}>
-          <IconButton 
-                sx={{position: 'absolute', right: '0px',top : '5px', zIndex: '10'}} 
-                onClick={(e) => {
-                  e.stopPropagation();
-                  addProductToWishlist({title, id, price, description, images, rating, discountPercentage});
-                }}>
-                <FavoriteRoundedIcon  sx={{
-                  color: '#adb5bd',
-                  '&:active': {
-                    fill: '#e63946'
-                  }
-                }}/>
-        </IconButton>
+            <IconButton 
+                  sx={{position: 'absolute', right: '0px',top : '5px', zIndex: '10'}} 
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    addProductToWishlist({title, id, price, description, images, rating, discountPercentage});
+                  }}>
+                  <FavoriteRoundedIcon  sx={{
+                    color: '#adb5bd',
+                    '&:active': {
+                      fill: '#e63946'
+                    }
+                  }}/>
+            </IconButton>
             <Paper elevation={2} sx={{padding: { sm: '20px', lg: '40px'}}} >
               <IconButton onClick={handlePrevImage} sx={{position: 'absolute', top: '40%', left: {xs: '-35px', sm:'-60px'}}}>
                 <NavigateBeforeRoundedIcon/>
@@ -141,8 +141,8 @@ export default function Product() {
                 alt={title}
                 sx={{
                   alignSelf:'center', 
-                  width:theme.spacing(40), 
-                  height:theme.spacing(40), 
+                  width:{xs : theme.spacing(30), sm : theme.spacing(40)}, 
+                  height:{xs : theme.spacing(30), sm : theme.spacing(40)}, 
                   objectFit:'contain'
                 }}
               />
