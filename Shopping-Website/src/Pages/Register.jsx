@@ -22,9 +22,16 @@ export default function Register() {
     const registerUser = async (event) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
-        await signUp(data.get('email'), data.get('password'), data.get('name'));
 
-        navigate('/login');
+        try{
+            await signUp(data.get('email'), data.get('password'), data.get('name'));
+            navigate('/login');
+        }
+        catch(e){
+            const error = JSON.stringify(e);
+            const {code} = JSON.parse(error);
+            alert(code.slice(5).toUpperCase());
+        }
     }
 
   return (

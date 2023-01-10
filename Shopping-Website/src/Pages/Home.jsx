@@ -59,7 +59,7 @@ const Home = () => {
 
     <Container sx={{ pt : {xs: 4, md: 6}, pb: {xs:14, sm:6}, position: 'relative'}} maxWidth='lg'>
 
-      {loading ? <CircularProgress sx={{position: 'fixed', top: '40%', left: '45%', zIndex: '10'}} /> :
+      {loading ? <CircularProgress sx={{position: 'fixed', top: '40%', left: {xs :'45%', sm: '48%'}, zIndex: '10'}} /> :
       <>
       <Fade in={open}>
         <Box sx={{position: 'relative', width:'100%', zIndex:100}}>

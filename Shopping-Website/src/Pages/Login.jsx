@@ -29,7 +29,9 @@ const Login = () => {
       navigate('/');
     }
     catch(e){
-      alert('No user found with submitted credentials...');
+      const error = JSON.stringify(e);
+      const {code} = JSON.parse(error);
+      alert(code.slice(5).toUpperCase());
     }
     
   }

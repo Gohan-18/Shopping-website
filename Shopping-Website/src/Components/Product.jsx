@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import { fetchSingleProduct } from '../feature/Product-slice';
 import { useSelector } from 'react-redux';
-import { Typography, Container, Grid, Divider, CardMedia, useTheme, Paper, IconButton, Rating, Button } from '@mui/material';
+import { Typography, Container, Grid, Divider, CardMedia, useTheme, Paper, IconButton, Rating, Button, Fade, Alert } from '@mui/material';
 import { Box } from '@mui/system';
 import { useState } from 'react';
 import NavigateBeforeRoundedIcon from '@mui/icons-material/NavigateBeforeRounded';
@@ -12,7 +12,8 @@ import ShoppingCartOutlined from '@mui/icons-material/ShoppingCartOutlined';
 import { addTOCart } from '../feature/Cart-slice';
 import ChevronLeftRoundedIcon from '@mui/icons-material/ChevronLeftRounded';
 import CircularProgress from '@mui/material/CircularProgress';
-// import FavoriteRoundedIcon from '@mui/icons-material/FavoriteRounded';
+import FavoriteRoundedIcon from '@mui/icons-material/FavoriteRounded';
+import { addToWishlist } from '../feature/Wishlist-slice';
 
 export default function Product() {
 
@@ -23,9 +24,23 @@ export default function Product() {
   const [currentIndex, setcurrentIndex] = useState(0);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [open, setOpen] = useState(false);
+
+  const handleOpen = () => {
+    setOpen(true);
+    setTimeout(() => {
+      handleClose();
+    }, 2000);
+  };
+
+  const handleClose = () => setOpen(false);
 
   for(let i = 0; i < images?.length; i++){
     imageList.push(images[i]);
+  }
+
+  const navigateWishlist = () => {
+    navigate('/wishlist');
   }
 
   const handleNextImage = () => {
@@ -49,6 +64,11 @@ export default function Product() {
     dispatch(fetchSingleProduct({productid}));
   }, []);
 
+  function addProductToWishlist(product) {
+    dispatch(addToWishlist({product}));
+    handleOpen();
+  }
+
   function addProductToCart (product) {
     dispatch(addTOCart({product, quantity:1}));
   }
@@ -62,11 +82,41 @@ export default function Product() {
     <Container maxWidth='lg' sx={{pt:{xs: theme.spacing(4), md: theme.spacing(12)}, pb:theme.spacing(15), position: 'relative'}}>
     {loading ? <CircularProgress sx={{position: 'fixed', top: '40%', left: '45%', zIndex: '10'}} /> :
       <>
-      <IconButton onClick={navigateToHome} sx={{position: 'absolute', top: '30px', left: '20px', zIndex: '100'}} >
+      <Fade in={open}>
+        <Box sx={{position: 'relative', width:'100%', zIndex:100}}>
+          <Box sx={{
+            display: 'flex',
+            width: '100%',
+            alignItems: 'center',
+            justifyContent: 'center',
+            position: 'absolute',
+            pt:'500px',
+          }} >
+            <Alert
+            sx={{
+              maxWidth: '300px',
+              margin: 'auto',
+              position: 'fixed',
+            }}
+                action={
+                  <Button color="inherit" size="small" onClick={navigateWishlist}>
+                    View
+                  </Button>
+                }
+              >Added to wishlist!!
+            </Alert>
+          </Box>
+        </Box>
+      </Fade>
+
+      <IconButton onClick={navigateToHome} sx={{position: 'absolute', top: '30px', left: {xs: '30px', md:'20px'}, zIndex: '100'}} >
         <ChevronLeftRoundedIcon fontSize='large'/>
       </IconButton>
-      {/* <IconButton 
-                sx={{position: 'absolute', right: '20px',top : '30px'}} 
+      <Grid container item >
+      <Grid item container xs={12} md={6} >
+          <Box sx={{ position: 'relative', margin: 'auto'}}>
+          <IconButton 
+                sx={{position: 'absolute', right: '0px',top : '5px', zIndex: '10'}} 
                 onClick={(e) => {
                   e.stopPropagation();
                   addProductToWishlist({title, id, price, description, images, rating, discountPercentage});
@@ -77,15 +127,12 @@ export default function Product() {
                     fill: '#e63946'
                   }
                 }}/>
-        </IconButton> */}
-      <Grid container item >
-      <Grid item container xs={12} md={6} >
-          <Box sx={{ position: 'relative', margin: 'auto'}}>
-            <Paper elevation={0} sx={{}} >
-              <IconButton onClick={handlePrevImage} sx={{position: 'absolute', top: '40%', left: {xs: '-35px', md:'-50px'}}}>
+        </IconButton>
+            <Paper elevation={2} sx={{padding: { sm: '20px', lg: '40px'}}} >
+              <IconButton onClick={handlePrevImage} sx={{position: 'absolute', top: '40%', left: {xs: '-35px', sm:'-60px'}}}>
                 <NavigateBeforeRoundedIcon/>
               </IconButton>
-              <IconButton onClick={handleNextImage} sx={{position: 'absolute', top: '40%', right: {xs: '-35px', md:'-50px'}}}>
+              <IconButton onClick={handleNextImage} sx={{position: 'absolute', top: '40%', right: {xs: '-35px', sm:'-60px'}}}>
                 <NavigateNextRoundedIcon />
               </IconButton>
               <CardMedia

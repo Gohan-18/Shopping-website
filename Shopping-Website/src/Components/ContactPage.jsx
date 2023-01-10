@@ -10,24 +10,9 @@ export default function ContactPage() {
     const navigate = useNavigate();
     const [state, handleSubmit] = useForm("myyayler");
 
-    // async function sendMail (event) {
-    //     event.preventDefault();
-    //     const data = new FormData(event.currentTarget);
-    //     console.log(data);
-    //     for (const [key, value] of data) {
-    //         console.log(key, value);
-    //     }
-    // }
-
     function navigateToMyAccount() {
         navigate('/account');
     };
-
-    // function handleFormSubmit (e) {
-    //     const value = e.target.value;
-    //     console.log(value);
-    //     console.log('hello')
-    // }
 
     if (state.succeeded) {
         return (
