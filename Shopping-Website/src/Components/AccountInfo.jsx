@@ -1,6 +1,6 @@
 import React from 'react';
 import { useAuth } from '../firebase/Auth';
-import { Box, Button, Grid, Typography, styled, Paper, IconButton } from '@mui/material';
+import { Box, Button, Grid, Typography, styled, Paper, IconButton, CardActionArea } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { Container } from '@mui/material';
 import FavoriteBorderRoundedIcon from '@mui/icons-material/FavoriteBorderRounded';
@@ -68,20 +68,31 @@ export default function AccountInfo() {
                 <Typography variant='h6' sx={{fontSize: '32px', borderBottom: '3px solid black', px:'10px'}}>My Account</Typography>
             </Box>
             <Box sx={{pb:6}}>
+                
                 <Grid container spacing={4} >
+                
                     <Grid item xs={6} >
+                    <CardActionArea>
                         <Item sx={{ display:'flex',alignItems: 'center', justifyContent: 'center',  gap:2, cursor: 'pointer', fontWeight:500}} elevation={1} onClick={navigateProfile}><PersonOutlineRoundedIcon/>Profile</Item>
+                    </CardActionArea>
                     </Grid>
                     <Grid item xs={6} >
+                    <CardActionArea>
                         <Item sx={{ display:'flex',alignItems: 'center', justifyContent: 'center',  gap:2, cursor: 'pointer', fontWeight:500}} elevation={1} onClick={navigateOrders}><ShoppingCartCheckoutRoundedIcon/> Orders</Item>
+                    </CardActionArea>
                     </Grid>
                     <Grid item xs={6} >
+                    <CardActionArea>
                         <Item sx={{display:'flex',alignItems: 'center', justifyContent: 'center', gap:2, cursor: 'pointer', fontWeight:500}} elevation={1} onClick={navigateWishlist}><FavoriteBorderRoundedIcon/> Wishlist</Item>
+                    </CardActionArea>
                     </Grid>
                     <Grid item xs={6} >
+                    <CardActionArea>
                         <Item sx={{display:'flex',alignItems: 'center', justifyContent: 'center', gap:2, cursor: 'pointer', fontWeight:500}} elevation={1} onClick={navigateContactMe}><ContactMailOutlinedIcon/> Contact</Item>
+                    </CardActionArea>
                     </Grid>
                 </Grid>
+                
             </Box>
             <Container maxWidth='sm' sx={{position: 'fixed', bottom: 100, left:0, right:0}}>
                 <Button fullWidth variant='contained' color='error' onClick={logOut}>LogOut</Button>
